@@ -166,9 +166,9 @@ const navData = {
 };
 </script>
 <style lang="less" scoped>
-  .popNav.v-dialog:deep>.v-overlay__content {
-    width: 100%;
-    max-width: calc(100% - 16px);
+.popNav.v-dialog:deep > .v-overlay__content {
+  width: 100%;
+  max-width: calc(100% - 16px);
 
   .v-card-text .v-col {
     padding: 4px;
@@ -177,10 +177,10 @@ const navData = {
       width: 100%;
       text-align: center;
 
-      >.v-btn {
+      > .v-btn {
         width: 100%;
 
-        >.v-btn__content {
+        > .v-btn__content {
           word-wrap: normal;
         }
       }
