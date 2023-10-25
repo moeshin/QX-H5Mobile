@@ -61,22 +61,30 @@ onBeforeRouteUpdate((to, _, next) => {
 </script>
 
 <style lang="less" scoped>
-.popNav.v-dialog:deep(> .v-overlay__content) {
-  width: 100%;
-  max-width: calc(100% - 16px);
+.popNav.v-dialog {
+  align-items: start;
 
-  .v-card-text .v-col {
-    padding: 4px;
+  :deep(> .v-overlay__content) {
+    width: 100%;
+    max-width: calc(100% - 16px);
 
-    > .v-btn-group {
-      width: 100%;
-      text-align: center;
+    .v-card-text {
+      padding-bottom: 24px;
 
-      > .v-btn {
-        width: 100%;
+      .v-col {
+        padding: 4px;
 
-        > .v-btn__content {
-          word-wrap: normal;
+        > .v-btn-group {
+          width: 100%;
+          text-align: center;
+
+          > .v-btn {
+            width: 100%;
+
+            > .v-btn__content {
+              word-wrap: normal;
+            }
+          }
         }
       }
     }
