@@ -105,9 +105,9 @@ const onSubmit = handleSubmit(({ email, username, password }) => {
       router.push('/profile');
     },
     (reason) => {
-      console.error(reason);
       if (reason instanceof api.ApiDataError) {
         createSnackbar({ text: reason.message });
+        console.warn(reason);
       } else {
         console.error(reason);
       }
