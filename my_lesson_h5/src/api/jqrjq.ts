@@ -1,15 +1,46 @@
 import {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
   default as axios,
 } from 'axios';
+import { error } from 'console';
 
 export interface ApiResponse<T = any> {
   code: number;
   data: T;
   msg: string;
   success: boolean;
+}
+
+export enum ApiCode {
+  success = 1,
+  validatedError = 1005,
+  custom = 2000,
+}
+
+export class ApiDataError extends Error {
+  resp: AxiosResponse<ApiResponse>;
+  cause?: Error;
+  constructor(resp: AxiosResponse<ApiResponse>, cause?: Error) {
+    super(
+      (({ code, data, msg }) => {
+        console.log(resp);
+        
+        if (code === ApiCode.validatedError) {
+          const { validated_error } = data;
+          if (Array.isArray(validated_error)) {
+            msg += '：' + validated_error.join('\n');
+          }
+        }
+        return msg;
+      })(resp.data),
+      cause && { cause },
+    );
+    this.resp = resp;
+    this.cause = cause;
+  }
 }
 
 export interface ApiAxios extends AxiosInstance {
@@ -72,13 +103,24 @@ export const apiAxios: ApiAxios = axios.create({
   },
 });
 
-apiAxios.interceptors.response.use((resp: AxiosResponse<ApiResponse>) => {
-  const { data } = resp;
-  if (data.success && data.code === 1) {
-    return data.data;
-  }
-  return Promise.reject([data.code, data.msg]);
-});
+apiAxios.interceptors.response.use(
+  (resp: AxiosResponse<ApiResponse>) => {
+    const { data } = resp;
+    if (data.success && data.code === ApiCode.success) {
+      return data.data;
+    }
+    return Promise.reject(new ApiDataError(resp));
+  },
+  (error) => {
+    if (error instanceof AxiosError && error.response?.status === 400) {
+      const data: ApiResponse = error.response.data;
+      if (!data.success && data.code !== ApiCode.success) {
+        return Promise.reject(new ApiDataError(error.response));
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 export interface ArticleCat {
   id: number;
@@ -104,5 +146,13 @@ export function getArticleCat(id: number | string) {
     params: {
       id,
     },
+  });
+}
+
+export function register(email: string, username: string, password: string) {
+  return apiAxios.post<undefined>('/api/mobile/eregister', {
+    email,
+    userName: username,
+    password,
   });
 }

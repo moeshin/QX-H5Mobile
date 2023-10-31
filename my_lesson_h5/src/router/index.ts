@@ -1,7 +1,7 @@
 // Composables
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router';
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('@/layouts/default/Default.vue'),
@@ -17,6 +17,10 @@ const routes = [
         component: () => import('@/views/ArticleCat.vue'),
       },
     ],
+  },
+  {
+    path: '/register',
+    component: () => import('@/views/Register.vue'),
   },
 ];
 
