@@ -89,10 +89,10 @@ const passwordConfirm = defineComponentBinds('passwordConfirm', vuetifyConfig);
 const passwordVisible = ref(false);
 const passwordConfirmVisible = ref(false);
 
-email.value['onUpdate:modelValue']('a@a.a');
-username.value['onUpdate:modelValue']('7w6jrK98');
-password.value['onUpdate:modelValue']('12345678');
-passwordConfirm.value['onUpdate:modelValue']('12345678');
+// email.value['onUpdate:modelValue']('a@a.a');
+// username.value['onUpdate:modelValue']('7w6jrK98');
+// password.value['onUpdate:modelValue']('12345678');
+// passwordConfirm.value['onUpdate:modelValue']('12345678');
 
 const avatar = ref('/src/assets/logo.svg');
 

@@ -130,26 +130,22 @@ export interface ArticleCat {
   deleted: boolean;
 }
 
-export function getArticleCatAll() {
-  return apiAxios.get<{
-    articleCats: ArticleCat[];
-  }>('/api/articleCat/all');
-}
+export const getArticleCatAll = apiAxios.get<{
+  articleCats: ArticleCat[];
+}>('/api/articleCat/all');
 
-export function getArticleCat(id: number | string) {
-  return apiAxios.get<{
+export const getArticleCat = (id: number | string) =>
+  apiAxios.get<{
     articleCat: ArticleCat;
   }>('/api/articleCat/one', {
     params: {
       id,
     },
   });
-}
 
-export function register(email: string, username: string, password: string) {
-  return apiAxios.post<undefined>('/api/mobile/eregister', {
+export const register = (email: string, username: string, password: string) =>
+  apiAxios.post<undefined>('/api/mobile/eregister', {
     email,
     userName: username,
     password,
   });
-}
