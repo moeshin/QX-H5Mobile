@@ -44,10 +44,10 @@
 
     <VRow>
       <VCol cols="6">
-        <VBtn block color="primary" type="submit">提交</VBtn>
+        <VBtn block color="primary" type="submit">注册</VBtn>
       </VCol>
       <VCol cols="6">
-        <VBtn block to="/login">提交</VBtn>
+        <VBtn block to="/login">登录</VBtn>
       </VCol>
     </VRow>
   </VForm>
