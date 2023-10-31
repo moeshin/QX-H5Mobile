@@ -5,7 +5,6 @@ import {
   AxiosResponse,
   default as axios,
 } from 'axios';
-import { error } from 'console';
 
 export interface ApiResponse<T = any> {
   code: number;
@@ -26,8 +25,6 @@ export class ApiDataError extends Error {
   constructor(resp: AxiosResponse<ApiResponse>, cause?: Error) {
     super(
       (({ code, data, msg }) => {
-        console.log(resp);
-        
         if (code === ApiCode.validatedError) {
           const { validated_error } = data;
           if (Array.isArray(validated_error)) {

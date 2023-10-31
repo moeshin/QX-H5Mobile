@@ -53,12 +53,12 @@
   </VForm>
 </template>
 <script lang="ts" setup>
+import * as api from '@/api/jqrjq';
+import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import * as api from '@/api/jqrjq';
 import { useSnackbar } from 'vuetify-use-dialog';
+import * as yup from 'yup';
 
 const schema = yup.object({
   username: yup.string().label('账号').min(8).max(20).required(),
