@@ -54,7 +54,6 @@ onMounted(() => {
 onBeforeRouteUpdate((to, _, next) => {
   if (!to.fullPath.startsWith(`${NAV_PREFIX}/`)) {
     navCurrent.value = undefined;
-    console.log(navCurrent.value);
   }
   next();
 });

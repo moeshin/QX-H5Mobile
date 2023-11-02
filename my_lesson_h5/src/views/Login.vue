@@ -1,27 +1,10 @@
 <template>
-  <div
-    style="
-      height: 40vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    "
-  >
-    <VAvatar :image="avatar" size="30vh" color="grey" />
-  </div>
-
-  <VForm class="mx-4" @submit="onSubmit">
+  <VForm class="ma-4" @submit="onSubmit">
     <VTextField
       v-bind="email"
       label="邮箱"
       variant="solo"
       prepend-inner-icon="mdi-email"
-    />
-    <VTextField
-      v-bind="username"
-      label="账号"
-      variant="solo"
-      prepend-inner-icon="mdi-account"
     />
     <VTextField
       v-bind="password"
@@ -32,22 +15,12 @@
       :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
       @click:append-inner="passwordVisible = !passwordVisible"
     />
-    <VTextField
-      v-bind="passwordConfirm"
-      label="确认密码"
-      variant="solo"
-      prepend-inner-icon="mdi-lock"
-      :type="passwordConfirmVisible ? 'text' : 'password'"
-      :append-inner-icon="passwordConfirmVisible ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="passwordConfirmVisible = !passwordConfirmVisible"
-    />
-
     <VRow>
       <VCol cols="6">
-        <VBtn block color="primary" type="submit">注册</VBtn>
+        <VBtn block color="primary" type="submit">登录</VBtn>
       </VCol>
       <VCol cols="6">
-        <VBtn block to="/login">登录</VBtn>
+        <VBtn block to="/register">注册</VBtn>
       </VCol>
     </VRow>
   </VForm>
@@ -58,17 +31,12 @@ import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSnackbar } from 'vuetify-use-dialog';
+import { useUserStore } from '@/store/user'
 import * as yup from 'yup';
 
 const schema = yup.object({
-  username: yup.string().label('账号').min(8).max(20).required(),
   email: yup.string().label('邮箱').email().required(),
   password: yup.string().label('密码').min(8).max(20).required(),
-  passwordConfirm: yup
-    .string()
-    .label('确认密码')
-    .oneOf([yup.ref('password')], '两次密码不一致')
-    .required(),
 });
 
 const { defineComponentBinds, handleSubmit } = useForm({
@@ -81,27 +49,23 @@ const vuetifyConfig = (state: any) => ({
   },
 });
 
-const username = defineComponentBinds('username', vuetifyConfig);
 const email = defineComponentBinds('email', vuetifyConfig);
 const password = defineComponentBinds('password', vuetifyConfig);
-const passwordConfirm = defineComponentBinds('passwordConfirm', vuetifyConfig);
 
 const passwordVisible = ref(false);
-const passwordConfirmVisible = ref(false);
 
 // email.value['onUpdate:modelValue']('a@a.a');
-// username.value['onUpdate:modelValue']('7w6jrK98');
 // password.value['onUpdate:modelValue']('12345678');
-// passwordConfirm.value['onUpdate:modelValue']('12345678');
-
-const avatar = ref('/src/assets/logo.svg');
 
 const router = useRouter();
 const createSnackbar = useSnackbar();
+const userStore = useUserStore();
 
-const onSubmit = handleSubmit(({ email, username, password }) => {
-  api.register(email, username, password).then(
-    () => {
+const onSubmit = handleSubmit(({ email, password }) => {
+  console.log('onSubmit', { email, password });
+  api.login(email, password).then(
+    ({ userinfo }) => {
+      userStore.info = userinfo;
       router.push('/profile');
     },
     (reason) => {

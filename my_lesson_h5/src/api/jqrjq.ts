@@ -149,3 +149,22 @@ export const register = (email: string, username: string, password: string) =>
     userName: username,
     password,
   });
+
+export interface UserInfo {
+  state: number;
+  id: number;
+  userName: string;
+  userType: string;
+  token: string;
+  binding: number;
+  createTime: null;
+  updateTime: null;
+  email: string;
+};
+
+export const login = (email: string, password: string) => apiAxios.post<{
+  userinfo: UserInfo;
+}>('/api/mobile/elogin', {
+  email,
+  password,
+});
