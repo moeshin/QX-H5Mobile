@@ -1,38 +1,40 @@
 <template>
-  <v-tabs v-model="navCurrent" center-active>
+  <VTabs v-model="navCurrent" center-active>
     <template v-for="item in articleCats" :key="item.id">
-      <v-tab :value="item" :to="`${NAV_PREFIX}/${item.id}`">
+      <VTab :value="item" :to="`${NAV_PREFIX}/${item.id}`">
         {{ item.catName }}
-      </v-tab>
+      </VTab>
     </template>
-  </v-tabs>
-  <v-spacer />
-  <v-dialog transition="dialog-top-transition" class="popNav">
+  </VTabs>
+  <VSpacer />
+  <VDialog transition="dialog-top-transition" class="popNav">
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" icon="mdi-view-module"></v-btn>
+      <VBtn v-bind="props" icon="mdi-view-module" />
     </template>
     <template v-slot:default="{ isActive }">
-      <v-card>
-        <v-toolbar color="transparent" title="选择频道">
-          <v-spacer />
-          <v-btn icon="mdi-close" @click="isActive.value = false"></v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <v-row>
+      <VCard>
+        <VToolbar color="transparent" title="选择频道">
+          <VSpacer />
+          <VBtn icon="mdi-close" @click="isActive.value = false" />
+        </VToolbar>
+        <VCardText>
+          <VRow>
             <template v-for="item in articleCats" :key="item.id">
-              <v-col cols="4">
-                <v-btn-toggle v-model="navCurrent" mandatory>
-                  <v-btn :value="item" :to="`${NAV_PREFIX}/${item.id}`">
-                    {{ item.catName }}
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
+              <VCol cols="4">
+                <VBtnToggle v-model="navCurrent" mandatory>
+                  <VBtn
+                    :value="item"
+                    :to="`${NAV_PREFIX}/${item.id}`"
+                    :text="item.catName"
+                  />
+                </VBtnToggle>
+              </VCol>
             </template>
-          </v-row>
-        </v-card-text>
-      </v-card>
+          </VRow>
+        </VCardText>
+      </VCard>
     </template>
-  </v-dialog>
+  </VDialog>
 </template>
 
 <script lang="ts" setup>

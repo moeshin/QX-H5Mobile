@@ -1,17 +1,17 @@
 <template>
-  <v-app-bar flat>
-    <v-app-bar-title>
+  <VAppBar flat>
+    <VAppBarTitle>
       <RouterLink to="/" style="color: inherit; text-decoration: none">
-        <v-icon icon="mdi-circle-slice-6" />
+        <VIcon icon="mdi-circle-slice-6" />
 
         Essentials Preset
       </RouterLink>
-    </v-app-bar-title>
+    </VAppBarTitle>
 
     <template v-slot:extension>
       <DefaultNav />
     </template>
-  </v-app-bar>
+  </VAppBar>
 </template>
 
 <script lang="ts" setup>

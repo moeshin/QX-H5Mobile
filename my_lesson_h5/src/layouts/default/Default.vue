@@ -1,9 +1,9 @@
 <template>
-  <v-app>
-    <default-bar />
+  <VApp>
+    <DefaultBar />
 
-    <default-view />
-  </v-app>
+    <DefaultView />
+  </VApp>
 </template>
 
 <script lang="ts" setup>

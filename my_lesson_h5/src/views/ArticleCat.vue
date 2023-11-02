@@ -1,7 +1,7 @@
 <template>
-  <v-container>
+  <VContainer>
     <pre v-text="articleCat"></pre>
-  </v-container>
+  </VContainer>
 </template>
 
 <script lang="ts" setup>
