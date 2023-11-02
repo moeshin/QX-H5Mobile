@@ -1,56 +1,48 @@
 <template>
-  <div
-    style="
-      height: 40vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    "
-  >
-    <VAvatar :image="avatar" size="30vh" color="grey" />
-  </div>
+  <VContainer>
+    <div align="center"><VAvatar :image="avatar" size="24vh" color="grey" /></div>
+    <VForm class="mt-4" @submit="onSubmit">
+      <VTextField
+        v-bind="email"
+        label="邮箱"
+        variant="solo"
+        prepend-inner-icon="mdi-email"
+      />
+      <VTextField
+        v-bind="username"
+        label="账号"
+        variant="solo"
+        prepend-inner-icon="mdi-account"
+      />
+      <VTextField
+        v-bind="password"
+        label="密码"
+        variant="solo"
+        prepend-inner-icon="mdi-lock"
+        :type="passwordVisible ? 'text' : 'password'"
+        :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="passwordVisible = !passwordVisible"
+      />
+      <VTextField
+        v-bind="passwordConfirm"
+        label="确认密码"
+        variant="solo"
+        prepend-inner-icon="mdi-lock"
+        :type="passwordConfirmVisible ? 'text' : 'password'"
+        :append-inner-icon="passwordConfirmVisible ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="passwordConfirmVisible = !passwordConfirmVisible"
+      />
 
-  <VForm class="mx-4" @submit="onSubmit">
-    <VTextField
-      v-bind="email"
-      label="邮箱"
-      variant="solo"
-      prepend-inner-icon="mdi-email"
-    />
-    <VTextField
-      v-bind="username"
-      label="账号"
-      variant="solo"
-      prepend-inner-icon="mdi-account"
-    />
-    <VTextField
-      v-bind="password"
-      label="密码"
-      variant="solo"
-      prepend-inner-icon="mdi-lock"
-      :type="passwordVisible ? 'text' : 'password'"
-      :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="passwordVisible = !passwordVisible"
-    />
-    <VTextField
-      v-bind="passwordConfirm"
-      label="确认密码"
-      variant="solo"
-      prepend-inner-icon="mdi-lock"
-      :type="passwordConfirmVisible ? 'text' : 'password'"
-      :append-inner-icon="passwordConfirmVisible ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="passwordConfirmVisible = !passwordConfirmVisible"
-    />
-
-    <VRow>
-      <VCol cols="6">
-        <VBtn block color="primary" type="submit">注册</VBtn>
-      </VCol>
-      <VCol cols="6">
-        <VBtn block to="/login">登录</VBtn>
-      </VCol>
-    </VRow>
-  </VForm>
+      <VRow>
+        <VCol cols="6">
+          <VBtn block color="primary" type="submit">注册</VBtn>
+        </VCol>
+        <VCol cols="6">
+          <VBtn block to="/login">登录</VBtn>
+        </VCol>
+      </VRow>
+    </VForm>
+  </VContainer>
 </template>
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';

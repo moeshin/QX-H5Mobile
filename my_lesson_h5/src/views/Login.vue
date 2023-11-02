@@ -1,29 +1,31 @@
 <template>
-  <VForm class="ma-4" @submit="onSubmit">
-    <VTextField
-      v-bind="email"
-      label="邮箱"
-      variant="solo"
-      prepend-inner-icon="mdi-email"
-    />
-    <VTextField
-      v-bind="password"
-      label="密码"
-      variant="solo"
-      prepend-inner-icon="mdi-lock"
-      :type="passwordVisible ? 'text' : 'password'"
-      :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="passwordVisible = !passwordVisible"
-    />
-    <VRow>
-      <VCol cols="6">
-        <VBtn block color="primary" type="submit">登录</VBtn>
-      </VCol>
-      <VCol cols="6">
-        <VBtn block to="/register">注册</VBtn>
-      </VCol>
-    </VRow>
-  </VForm>
+  <VContainer>
+    <VForm @submit="onSubmit">
+      <VTextField
+        v-bind="email"
+        label="邮箱"
+        variant="solo"
+        prepend-inner-icon="mdi-email"
+      />
+      <VTextField
+        v-bind="password"
+        label="密码"
+        variant="solo"
+        prepend-inner-icon="mdi-lock"
+        :type="passwordVisible ? 'text' : 'password'"
+        :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="passwordVisible = !passwordVisible"
+      />
+      <VRow>
+        <VCol cols="6">
+          <VBtn block color="primary" type="submit">登录</VBtn>
+        </VCol>
+        <VCol cols="6">
+          <VBtn block to="/register">注册</VBtn>
+        </VCol>
+      </VRow>
+    </VForm>
+  </VContainer>
 </template>
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
@@ -31,7 +33,7 @@ import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSnackbar } from 'vuetify-use-dialog';
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/store/user';
 import * as yup from 'yup';
 
 const schema = yup.object({

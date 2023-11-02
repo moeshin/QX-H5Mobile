@@ -1,6 +1,6 @@
 <template>
   <VContainer>
-    <pre v-text="articleCat"></pre>
+    <pre><VCode v-text="articleCat"></VCode></pre>
   </VContainer>
 </template>
 
