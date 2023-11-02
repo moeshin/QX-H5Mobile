@@ -130,7 +130,7 @@ export interface ArticleCat {
   deleted: boolean;
 }
 
-export const getArticleCatAll = apiAxios.get<{
+export const getArticleCatAll = () => apiAxios.get<{
   articleCats: ArticleCat[];
 }>('/api/articleCat/all');
 
