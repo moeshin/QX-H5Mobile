@@ -8,6 +8,9 @@
       </RouterLink>
     </VAppBarTitle>
 
+    <VSpacer />
+    <VBtn icon="mdi-account" to="/profile" />
+
     <template v-slot:extension>
       <DefaultNav />
     </template>
