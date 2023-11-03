@@ -1,7 +1,7 @@
 <template>
-  <VTabs v-model="navCurrent" center-active>
-    <template v-for="item in articleCats" :key="item.id">
-      <VTab :value="item" :to="`${NAV_PREFIX}/${item.id}`">
+  <VTabs v-model="navArticleCatId" center-active>
+    <template v-for="item in navArticleCats" :key="item.id">
+      <VTab :value="item.id" :to="`${NAV_PREFIX}/${item.id}`">
         {{ item.catName }}
       </VTab>
     </template>
@@ -19,11 +19,11 @@
         </VToolbar>
         <VCardText>
           <VRow>
-            <template v-for="item in articleCats" :key="item.id">
+            <template v-for="item in navArticleCats" :key="item.id">
               <VCol cols="4">
-                <VBtnToggle v-model="navCurrent" mandatory>
+                <VBtnToggle v-model="navArticleCatId" mandatory>
                   <VBtn
-                    :value="item"
+                    :value="item.id"
                     :to="`${NAV_PREFIX}/${item.id}`"
                     :text="item.catName"
                   />
@@ -38,24 +38,19 @@
 </template>
 
 <script lang="ts" setup>
-import * as api from '@/api/jqrjq';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
+import { storeToRefs } from 'pinia'
+import { useArticleStore } from '@/store/article';
+
 const NAV_PREFIX = '/articleCat';
 
-const navCurrent = ref<api.ArticleCat | undefined>(undefined);
-const articleCats = ref<api.ArticleCat[]>([]);
-onMounted(() => {
-  api.getArticleCatAll().then((data) => {
-    articleCats.value = data.articleCats.filter((v) =>
-      v.showInNav && v.deleted ? false : true,
-    );
-  });
-});
+const navArticleCatId = ref<number | null>(null);
+const { navArticleCats } = storeToRefs(useArticleStore());
 
 onBeforeRouteUpdate((to, _, next) => {
   if (!to.fullPath.startsWith(`${NAV_PREFIX}/`)) {
-    navCurrent.value = undefined;
+    navArticleCatId.value = null;
   }
   next();
 });
