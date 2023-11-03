@@ -1,6 +1,6 @@
 <template>
   <VContainer>
-    <pre><VCode v-text="articleCat"></VCode></pre>
+    <VCode class="overflow-auto" tag="pre" v-text="articleCat" />
   </VContainer>
 </template>
 
