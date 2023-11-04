@@ -1,20 +1,34 @@
 <template>
   <VContainer>
     <VCard>
-      <VCardTitle style="white-space: unset">{{ article?.title }}</VCardTitle>
-      <VCardSubtitle style="display: flex">
-        <VChip
-          color="primary"
-          prepend-icon="mdi-account-circle"
-          :text="
-            article && userInfoStore.get(article?.userinfoId).value?.userName
-          "
-        />
-        <VSpacer />
-        <VChip
-          prepend-icon="mdi-clock"
-          :text="article && new Date(article.createTime).toLocaleDateString()"
-        />
+      <VCardTitle style="white-space: unset">
+        <div class="my-2">
+          <VChip
+            color="primary"
+            prepend-icon="mdi-account-circle"
+            :text="
+              article && userInfoStore.get(article.userinfoId).value?.userName
+            "
+          />
+        </div>
+        {{ article?.title }}
+      </VCardTitle>
+      <VCardSubtitle class="">
+        <div style="display: flex;">
+          <VChip
+            color="pink"
+            prepend-icon="mdi-label"
+            :text="
+              article && articleStore.getArticleCatName(article.articleCatId)
+            "
+            :to="`/articleCat/${article?.articleCatId}`"
+          />
+          <VSpacer />
+          <VChip
+            prepend-icon="mdi-clock"
+            :text="article && new Date(article.createTime).toLocaleDateString()"
+          />
+        </div>
       </VCardSubtitle>
       <VCardItem>{{ article?.content }}</VCardItem>
     </VCard>
