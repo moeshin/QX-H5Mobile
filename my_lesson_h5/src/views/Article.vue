@@ -13,7 +13,7 @@
         </div>
         {{ article?.title }}
       </VCardTitle>
-      <VCardSubtitle class="">
+      <VCardSubtitle>
         <div style="display: flex;">
           <VChip
             color="pink"
@@ -30,7 +30,7 @@
           />
         </div>
       </VCardSubtitle>
-      <VCardItem>{{ article?.content }}</VCardItem>
+      <VCardText>{{ article?.content }}</VCardText>
     </VCard>
   </VContainer>
 </template>
