@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { defineStore } from 'pinia';
 import { useAsyncState } from '@vueuse/core';
 import * as api from '@/api/jqrjq';
@@ -8,17 +8,21 @@ export const useArticleStore = defineStore('article', () => {
     api.getArticleCatAll().then((data) => data.articleCats),
     [],
   );
+  const articleCatMap = computed(() => {
+    const map = new Map<number, api.ArticleCat>();
+    for (const articleCat of articleCats.value) {
+      map.set(articleCat.id, articleCat);
+    }
+    return map;
+  });
   return {
     articleCats,
-    navArticleCats: computed(() => articleCats.value.filter(
-      (v) => v.showInNav && !v.deleted,
-    )),
-    articleCatMap: computed(() => {
-      const map = new Map<number, api.ArticleCat>();
-      for (const articleCat of articleCats.value) {
-        map.set(articleCat.id, articleCat);
-      }
-      return map;
-    }),
+    navArticleCats: computed(() =>
+      articleCats.value.filter((v) => v.showInNav && !v.deleted),
+    ),
+    articleCatMap,
+    getArticleCatName(id: number) {
+      return articleCatMap.value.get(id)?.catName;
+    },
   };
 });

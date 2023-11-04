@@ -15,6 +15,7 @@ export interface ApiResponse<T = any> {
 
 export enum ApiCode {
   success = 1,
+  noData = 2,
   validatedError = 1005,
   custom = 2000,
 }
@@ -119,6 +120,17 @@ apiAxios.interceptors.response.use(
   },
 );
 
+export interface ResponsePages<T = any> {
+  records: T[];
+  total: number;
+  size: number;
+  current: number;
+  orders: unknown[];
+  optimizeCountSql: boolean;
+  searchCount: boolean;
+  pages: number;
+}
+
 export interface ArticleCat {
   id: number;
   catName: string;
@@ -130,9 +142,10 @@ export interface ArticleCat {
   deleted: boolean;
 }
 
-export const getArticleCatAll = () => apiAxios.get<{
-  articleCats: ArticleCat[];
-}>('/api/articleCat/all');
+export const getArticleCatAll = () =>
+  apiAxios.get<{
+    articleCats: ArticleCat[];
+  }>('/api/articleCat/all');
 
 export const getArticleCat = (id: number | string) =>
   apiAxios.get<{
@@ -157,14 +170,68 @@ export interface UserInfo {
   userType: string;
   token: string;
   binding: number;
-  createTime: null;
-  updateTime: null;
+  createTime: string;
+  updateTime: string;
   email: string;
-};
+}
 
-export const login = (email: string, password: string) => apiAxios.post<{
-  userinfo: UserInfo;
-}>('/api/mobile/elogin', {
-  email,
-  password,
-});
+export const login = (email: string, password: string) =>
+  apiAxios.post<{
+    userinfo: UserInfo;
+  }>('/api/mobile/elogin', {
+    email,
+    password,
+  });
+
+export const getUserInfo = (id: number) =>
+  apiAxios.get<{
+    userinfo: UserInfo;
+  }>('/api/userinfo/one', {
+    params: {
+      id,
+    },
+  });
+
+export interface Article {
+  id: string;
+  articleCatId: number;
+  title: string;
+  content: string;
+  updateTime: string;
+  createTime: string;
+  open: number;
+  deleted: number;
+  userinfoId: number;
+}
+
+export const getArticlesByCatId = (id: number) =>
+  apiAxios.get<{
+    articles: Article[];
+  }>('/api/article/' + id);
+
+export const getArticle = (id: number) =>
+  apiAxios.get<{
+    article: Article;
+  }>('/api/article/one', {
+    params: {
+      id,
+    },
+  });
+
+export const getArticles = () =>
+  apiAxios.get<{
+    articles: Article[];
+  }>('/api/article/all');
+
+export const getArticlePages = (
+  current: number,
+  size: number,
+  colums?: string[],
+) =>
+  apiAxios.post<{
+    pages: ResponsePages<Article>;
+  }>('/api/article/page', {
+    current,
+    size,
+    colums,
+  });
