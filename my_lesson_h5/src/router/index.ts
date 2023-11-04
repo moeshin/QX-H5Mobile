@@ -1,6 +1,6 @@
 // Composables
 import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router';
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/store/user';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,10 +14,13 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'articleCat/:id',
-        // name: 'ArticleCat',
         component: () => import('@/views/ArticleCat.vue'),
       },
     ],
+  },
+  {
+    path: '/article/:id',
+    component: () => import('@/views/Article.vue'),
   },
   {
     path: '/register',
@@ -55,7 +58,7 @@ router.beforeEach((to, _from, next) => {
       }
       break;
     case '/profile':
-      if (!(useUserStore().info)) {
+      if (!useUserStore().info) {
         next('/login');
         return;
       }

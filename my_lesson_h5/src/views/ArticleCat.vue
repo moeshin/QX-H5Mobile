@@ -21,7 +21,7 @@
           <VListItemSubtitle style="display: flex">
             {{ articleStore.getArticleCatName(article.articleCatId) }}
             <VSpacer />
-            {{ new Date(article.createTime).toLocaleString() }}
+            {{ new Date(article.createTime).toLocaleDateString() }}
           </VListItemSubtitle>
         </template>
       </VListItem>
@@ -37,9 +37,9 @@ import { useUserInfoStore } from '@/store/userinfo';
 import { ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router';
 
-const articles = ref<api.Article[]>([]);
 const articleStore = useArticleStore();
 const userInfoStore = useUserInfoStore();
+const articles = ref<api.Article[]>([]);
 
 (() => {
   const $route = useRoute();

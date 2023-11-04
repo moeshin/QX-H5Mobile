@@ -14,6 +14,7 @@ export interface ApiResponse<T = any> {
 }
 
 export enum ApiCode {
+  failed = 0,
   success = 1,
   noData = 2,
   validatedError = 1005,
