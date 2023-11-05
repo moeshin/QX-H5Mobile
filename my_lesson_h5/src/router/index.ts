@@ -1,45 +1,70 @@
-// Composables
-import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router';
+import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
+
 import { useUserStore } from '@/store/user';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
+    path: '/articleCat',
+    component: () => import('@/layouts/ArticleCat.vue'),
     children: [
       {
-        path: '',
-        name: 'Home',
+        path: '/',
+        name: 'home',
         component: () => import('@/views/Home.vue'),
+        meta: {
+          title: '首页',
+        },
       },
       {
-        path: 'articleCat/:id',
+        path: ':id',
+        name: 'articleCat',
         component: () => import('@/views/ArticleCat.vue'),
+        meta: {
+          title: '文章分类',
+        },
       },
     ],
   },
   {
-    path: '/article/:id',
-    component: () => import('@/views/Article.vue'),
-  },
-  {
-    path: '/register',
-    component: () => import('@/views/Register.vue'),
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/Login.vue'),
-  },
-  {
-    path: '/logout',
-    redirect() {
-      useUserStore().info = null;
-      return '/login';
-    },
-  },
-  {
-    path: '/profile',
-    component: () => import('@/views/Profile.vue'),
+    path: '',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '/article/:id',
+        component: () => import('@/views/Article.vue'),
+        meta: {
+          title: '文章',
+        },
+      },
+      {
+        path: '/register',
+        component: () => import('@/views/Register.vue'),
+        meta: {
+          title: '注册',
+        },
+      },
+      {
+        path: '/login',
+        component: () => import('@/views/Login.vue'),
+        meta: {
+          title: '登录',
+        },
+      },
+      {
+        path: '/logout',
+        redirect() {
+          useUserStore().info = null;
+          return '/login';
+        },
+      },
+      {
+        path: '/profile',
+        component: () => import('@/views/Profile.vue'),
+        meta: {
+          title: '用户',
+        },
+      },
+    ],
   },
 ];
 
