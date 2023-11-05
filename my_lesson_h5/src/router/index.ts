@@ -4,8 +4,8 @@ import { useUserStore } from '@/store/user';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/articleCat',
-    component: () => import('@/layouts/ArticleCat.vue'),
+    path: '/',
+    component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
         path: '/',
@@ -13,22 +13,18 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/Home.vue'),
         meta: {
           title: '首页',
+          showArticleCatNavBar: true,
         },
       },
       {
-        path: ':id',
+        path: '/articleCat/:id',
         name: 'articleCat',
         component: () => import('@/views/ArticleCat.vue'),
         meta: {
           title: '文章分类',
+          showArticleCatNavBar: true,
         },
       },
-    ],
-  },
-  {
-    path: '',
-    component: () => import('@/layouts/default/Default.vue'),
-    children: [
       {
         path: '/article/:id',
         component: () => import('@/views/Article.vue'),
@@ -90,6 +86,13 @@ router.beforeEach((to, _from, next) => {
       break;
   }
   next();
+});
+
+router.afterEach((to) => {
+  const title = to.meta.title as string | undefined;
+  if (title) {
+    document.title = title;
+  }
 });
 
 export default router;

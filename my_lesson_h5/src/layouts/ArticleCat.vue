@@ -1,9 +1,9 @@
 <template>
   <VApp>
     <AppBar>
-      <template v-slot:extension>
+      <!-- <template v-slot:extension>
         <ArticleCatNavBar />
-      </template>
+      </template> -->
     </AppBar>
 
     <DefaultView />

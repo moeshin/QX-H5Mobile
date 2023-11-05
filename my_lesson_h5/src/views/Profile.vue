@@ -1,8 +1,5 @@
 <template>
   <VContainer>
-    <div style="position: absolute; top: 8px; right: 8px">
-      <VBtn flat icon="mdi-logout" to="/logout" />
-    </div>
     <div class="my-4" align="center">
       <VAvatar
         style="width: 12vh; height: 12vh; min-width: 12vw; min-height: 12vw"
