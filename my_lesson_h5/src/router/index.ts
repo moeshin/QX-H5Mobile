@@ -4,12 +4,11 @@ import { useUserStore } from '@/store/user';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: '',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
-        path: '/',
-        name: 'home',
+        path: '',
         component: () => import('@/views/Home.vue'),
         meta: {
           title: '首页',
@@ -17,16 +16,27 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: '/articleCat/:id',
-        name: 'articleCat',
-        component: () => import('@/views/ArticleCat.vue'),
+        path: '/articles',
+        name: 'articles',
+        component: () => import('@/views/ArticleList.vue'),
+        children: [
+          {
+            path: '/articleCat/:id',
+            name: 'articleCat',
+            components: {},
+            meta: {
+              title: '文章分类',
+            },
+          },
+        ],
         meta: {
-          title: '文章分类',
+          title: '所有文章',
           showArticleCatNavBar: true,
         },
       },
       {
         path: '/article/:id',
+        name: 'article',
         component: () => import('@/views/Article.vue'),
         meta: {
           title: '文章',
@@ -52,12 +62,15 @@ const routes: RouteRecordRaw[] = [
           useUserStore().info = null;
           return '/login';
         },
+        meta: {
+          title: '登出',
+        },
       },
       {
         path: '/profile',
         component: () => import('@/views/Profile.vue'),
         meta: {
-          title: '用户',
+          title: '个人',
         },
       },
     ],

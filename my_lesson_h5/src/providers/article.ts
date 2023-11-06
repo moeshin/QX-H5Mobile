@@ -4,9 +4,13 @@ export type ArtilePagesProvider = () => Promise<api.ResponsePages<api.Article>>;
 
 export function createArtilePagesProvider(
   current: number = 0,
-  size: number = 2,
+  size: number = 10,
 ): ArtilePagesProvider {
-  return () => api.getArticlePages(++current, size).then((data) => data.pages);
+  const provider = () =>
+    api.getArticlePages(++current, size).then((data) => data.pages);
+  // return () =>
+  //   new Promise((resolve) => setTimeout(resolve, 2000)).then(provider);
+  return provider;
 }
 
 export function createArtilePagesProviderByArticleCatId(

@@ -1,10 +1,24 @@
 <template>
-  <VTabs v-model="navArticleCatId" center-active>
-    <template v-for="item in navArticleCats" :key="item.id">
-      <VTab :value="item.id" :to="`${NAV_PREFIX}/${item.id}`">
-        {{ item.catName }}
-      </VTab>
-    </template>
+  <VTabs v-model="navArticlesId" mandatory center-active>
+    <VTab
+      value="all"
+      text="全部"
+      :to="{
+        name: 'articles',
+      }"
+    />
+    <VTab
+      v-for="item in navArticleCats"
+      :key="item.id"
+      :value="item.id"
+      :text="item.catName"
+      :to="{
+        name: 'articleCat',
+        params: {
+          id: item.id,
+        },
+      }"
+    />
   </VTabs>
   <VSpacer />
   <VDialog transition="dialog-top-transition" class="popNav">
@@ -19,13 +33,29 @@
         </VToolbar>
         <VCardText>
           <VRow>
+            <VCol cols="4">
+              <VBtnToggle v-model="navArticlesId" mandatory>
+                <VBtn
+                  value="all"
+                  text="全部"
+                  :to="{
+                    name: 'articles',
+                  }"
+                />
+              </VBtnToggle>
+            </VCol>
             <template v-for="item in navArticleCats" :key="item.id">
               <VCol cols="4">
-                <VBtnToggle v-model="navArticleCatId" mandatory>
+                <VBtnToggle v-model="navArticlesId" mandatory>
                   <VBtn
                     :value="item.id"
-                    :to="`${NAV_PREFIX}/${item.id}`"
                     :text="item.catName"
+                    :to="{
+                      name: 'articleCat',
+                      params: {
+                        id: item.id,
+                      },
+                    }"
                   />
                 </VBtnToggle>
               </VCol>
@@ -38,19 +68,17 @@
 </template>
 
 <script lang="ts" setup>
+import { useArticleStore } from '@/store/article';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
-import { storeToRefs } from 'pinia'
-import { useArticleStore } from '@/store/article';
 
-const NAV_PREFIX = '/articleCat';
-
-const navArticleCatId = ref<number | null>(null);
+const navArticlesId = ref<number | 'all'>();
 const { navArticleCats } = storeToRefs(useArticleStore());
 
-onBeforeRouteUpdate((to, _, next) => {
-  if (!to.fullPath.startsWith(`${NAV_PREFIX}/`)) {
-    navArticleCatId.value = null;
+onBeforeRouteUpdate((route, _, next) => {
+  if (!['articles', 'articleCat'].includes(route.name as any)) {
+    navArticlesId.value = undefined;
   }
   next();
 });
