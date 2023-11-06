@@ -19,5 +19,5 @@ export function createArtilePagesProviderByArticleCatId(
   return () =>
     api
       .getArrIgnoreNoData(api.getArticlesByCatId(articleCatId), 'articles')
-      .then((data) => api.warpPages(data));
+      .then((data) => api.wrapPages(data));
 }

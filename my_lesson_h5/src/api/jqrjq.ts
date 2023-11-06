@@ -132,7 +132,7 @@ export interface ResponsePages<T = any> {
   pages: number;
 }
 
-export const warpPages = <T = any>(records: T[]): ResponsePages<T> => ({
+export const wrapPages = <T = any>(records: T[]): ResponsePages<T> => ({
   records,
   total: records.length,
   size: records.length,
