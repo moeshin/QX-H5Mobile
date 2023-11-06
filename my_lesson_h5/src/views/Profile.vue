@@ -38,3 +38,10 @@ const tab = ref('');
 const avatar = ref('/src/assets/logo.svg');
 const tabs = ['关注', '动态', '收藏'];
 </script>
+
+<style lang="less" scoped>
+:deep(.v-avatar img) {
+  top: 8%;
+  scale: 0.8;
+}
+</style>

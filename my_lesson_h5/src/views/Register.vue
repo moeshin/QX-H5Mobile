@@ -1,6 +1,8 @@
 <template>
   <VContainer>
-    <div align="center"><VAvatar :image="avatar" size="24vh" color="grey" /></div>
+    <div align="center">
+      <VAvatar :image="avatar" size="24vh" color="grey" />
+    </div>
     <VForm class="mt-4" @submit="onSubmit">
       <VTextField
         v-bind="email"
@@ -107,3 +109,10 @@ const onSubmit = handleSubmit(({ email, username, password }) => {
   );
 });
 </script>
+
+<style lang="less" scoped>
+:deep(.v-avatar img) {
+  top: 8%;
+  scale: 0.8;
+}
+</style>
