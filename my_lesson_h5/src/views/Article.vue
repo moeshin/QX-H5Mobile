@@ -7,7 +7,7 @@
             color="primary"
             prepend-icon="mdi-account-circle"
             :text="
-              article && userInfoStore.get(article.userinfoId).value?.userName
+              article && userStore.get(article.userinfoId).value?.userName
             "
           />
         </div>
@@ -37,12 +37,12 @@
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
 import { useArticleStore } from '@/store/article';
-import { useUserInfoStore } from '@/store/userinfo';
+import { useUserStore } from '@/store/user';
 import { ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router';
 
 const articleStore = useArticleStore();
-const userInfoStore = useUserInfoStore();
+const userStore = useUserStore();
 
 const article = ref<api.Article | undefined>(undefined);
 

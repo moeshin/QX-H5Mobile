@@ -11,7 +11,7 @@
             <VListItemTitle style="display: flex">
               <VIcon icon="mdi-account-circle-outline" />
               <span class="mx-2">
-                {{ userInfoStore.get(article.userinfoId).value?.userName }}
+                {{ userStore.get(article.userinfoId).value?.userName }}
               </span>
               <VSpacer />
               more
@@ -39,7 +39,7 @@
 import * as api from '@/api/jqrjq';
 import { ArtilePagesProvider } from '@/providers/article';
 import { useArticleStore } from '@/store/article';
-import { useUserInfoStore } from '@/store/userinfo';
+import { useUserStore } from '@/store/user';
 import { defineProps, ref } from 'vue';
 import { VInfiniteScroll } from 'vuetify/labs/VInfiniteScroll';
 
@@ -48,7 +48,7 @@ const props = defineProps<{
 }>();
 
 const articleStore = useArticleStore();
-const userInfoStore = useUserInfoStore();
+const userStore = useUserStore();
 const articles = ref<api.Article[]>();
 
 let isDone = false;

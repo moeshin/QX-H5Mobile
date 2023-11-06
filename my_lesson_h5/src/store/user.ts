@@ -3,7 +3,7 @@ import { useAsyncState } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
 
-export const useUserInfoStore = defineStore('userinfo', () => {
+export const useUserStore = defineStore('user', () => {
   const cache = ref(new Map<number, Ref<api.UserInfo | null>>());
   return {
     cache,
