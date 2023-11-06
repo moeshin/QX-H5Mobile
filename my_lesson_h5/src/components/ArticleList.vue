@@ -54,6 +54,11 @@ const articles = ref<api.Article[]>();
 let isDone = false;
 
 const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
+  // const _done = done;
+  // done = (...args) => {
+  //   console.log('done', args, isDone);
+  //   _done(...args);
+  // }
   if (isDone) {
     done('empty');
     return;

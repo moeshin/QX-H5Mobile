@@ -145,7 +145,7 @@ export const warpPages = <T = any>(records: T[]): ResponsePages<T> => ({
 
 export const isLatestPages = <T = any>(pages: ResponsePages<T>) => {
   if (pages.searchCount) {
-    return pages.pages >= pages.current;
+    return pages.current >= pages.pages;
   }
   return pages.size > pages.records.length;
 };
