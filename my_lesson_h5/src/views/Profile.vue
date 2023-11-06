@@ -7,7 +7,7 @@
         :image="avatar"
       />
     </div>
-    <h2 class="my-4" align="center">{{ userStore.info?.userName }}</h2>
+    <h2 class="my-4" align="center">{{ authStore.user?.userName }}</h2>
     <VCard>
       <VTabs v-model="tab" color="deep-purple-accent-4" align-tabs="center">
         <VTab
@@ -30,9 +30,9 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useUserStore } from '@/store/user';
+import { useAuthStore } from '@/store/auth';
 
-const userStore = useUserStore();
+const authStore = useAuthStore();
 
 const tab = ref('');
 const avatar = ref('/src/assets/logo.svg');

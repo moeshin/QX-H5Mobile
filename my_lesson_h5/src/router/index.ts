@@ -1,6 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
 
-import { useUserStore } from '@/store/user';
+import { useAuthStore } from '@/store/auth';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -58,7 +58,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/logout',
         redirect() {
-          useUserStore().info = null;
+          useAuthStore().user = undefined;
           return '/login';
         },
         meta: {
@@ -85,13 +85,13 @@ router.beforeEach((to, _from, next) => {
   switch (to.path) {
     case '/register':
     case '/login':
-      if (useUserStore().info) {
+      if (useAuthStore().isLogin) {
         next('/profile');
         return;
       }
       break;
     case '/profile':
-      if (!useUserStore().info) {
+      if (!useAuthStore().isLogin) {
         next('/login');
         return;
       }

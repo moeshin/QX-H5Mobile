@@ -3,7 +3,7 @@
     <VBtn icon="mdi-home" to="/" :active="false" />
     <VAppBarTitle>{{ title }}</VAppBarTitle>
     <VSpacer />
-    <VBtn v-if="userStore.info" icon="mdi-logout" to="/logout" />
+    <VBtn v-if="authStore.isLogin" icon="mdi-logout" to="/logout" />
     <VBtn icon="mdi-account" to="/profile" />
 
     <template v-if="route.meta.showArticleCatNavBar" #extension>
@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store/user';
+import { useAuthStore } from '@/store/auth';
 import { watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { VAppBar, VAppBarTitle, VBtn, VSpacer } from 'vuetify/components';
 import ArticleCatNavBar from './ArticleCatNavBar.vue';
 
 const route = useRoute();
-const userStore = useUserStore();
+const authStore = useAuthStore();
 
 const title = ref('');
 

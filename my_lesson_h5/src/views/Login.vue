@@ -33,7 +33,7 @@ import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSnackbar } from 'vuetify-use-dialog';
-import { useUserStore } from '@/store/user';
+import { useAuthStore } from '@/store/auth';
 import * as yup from 'yup';
 
 const schema = yup.object({
@@ -61,13 +61,13 @@ const passwordVisible = ref(false);
 
 const router = useRouter();
 const createSnackbar = useSnackbar();
-const userStore = useUserStore();
+const authStore = useAuthStore();
 
 const onSubmit = handleSubmit(({ email, password }) => {
   console.log('onSubmit', { email, password });
   api.login(email, password).then(
     ({ userinfo }) => {
-      userStore.info = userinfo;
+      authStore.user = userinfo;
       router.push('/profile');
     },
     (reason) => {
