@@ -132,6 +132,72 @@ export interface ResponsePages<T = any> {
   pages: number;
 }
 
+export const warpPages = <T = any>(records: T[]): ResponsePages<T> => ({
+  records,
+  total: records.length,
+  size: records.length,
+  current: 1,
+  orders: [],
+  optimizeCountSql: true,
+  searchCount: true,
+  pages: 1,
+});
+
+export const isLatestPages = <T = any>(pages: ResponsePages<T>) => {
+  if (pages.searchCount) {
+    return pages.pages >= pages.current;
+  }
+  return pages.size > pages.records.length;
+};
+
+// export type ItemOf<A> = A extends (infer I)[] ? I : never;
+//
+// export const getArrIgnoreNoData = <
+//   T,
+//   K extends keyof T,
+//   I extends ItemOf<T[K]>,
+// >(
+//   promise: Promise<
+//     T & {
+//       [key in K]: I[];
+//     }
+//   >,
+//   key: K,
+// ): Promise<I[]> =>
+//   promise.then(
+//     (data) => data[key],
+//     (reason) => {
+//       if (
+//         reason instanceof ApiDataError &&
+//         reason.resp.data.code === ApiCode.noData
+//       ) {
+//         return [] as I[];
+//       }
+//       return Promise.reject(reason);
+//     },
+//   );
+
+export const getArrIgnoreNoData = <T, K extends keyof T, V = any>(
+  promise: Promise<
+    T & {
+      [key in K]: V[];
+    }
+  >,
+  key: K,
+): Promise<T[K]> =>
+  promise.then(
+    (data) => data[key],
+    (reason) => {
+      if (
+        reason instanceof ApiDataError &&
+        reason.resp.data.code === ApiCode.noData
+      ) {
+        return [] as T[K];
+      }
+      return Promise.reject(reason);
+    },
+  );
+
 export interface ArticleCat {
   id: number;
   catName: string;
@@ -194,7 +260,7 @@ export const getUserInfo = (id: number) =>
   });
 
 export interface Article {
-  id: string;
+  id: number;
   articleCatId: number;
   title: string;
   content: string;
