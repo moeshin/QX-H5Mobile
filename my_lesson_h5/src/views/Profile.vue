@@ -4,7 +4,8 @@
       <VAvatar
         style="width: 12vh; height: 12vh; min-width: 12vw; min-height: 12vw"
         color="grey"
-        :image="avatar"
+        class="default-avatar"
+        :image="consts.DEFAULT_AVATAR"
       />
     </div>
     <h2 class="my-4" align="center">{{ user?.userName }}</h2>
@@ -34,12 +35,13 @@
 </template>
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
+import ArticleList from '@/components/ArticleList.vue';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
+import * as consts from '@/utils/constants';
 import { storeToRefs } from 'pinia';
 import { ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import ArticleList from '@/components/ArticleList.vue';
 
 const route = useRoute();
 
@@ -49,13 +51,5 @@ const user: Ref<api.UserInfo | undefined> =
     : useUserStore().get(route.params.id as any);
 
 const tab = ref<number | string>();
-const avatar = ref('/src/assets/logo.svg');
 const tabs = ['关注', '动态', '收藏'];
 </script>
-
-<style lang="less" scoped>
-:deep(.v-avatar img) {
-  top: 8%;
-  scale: 0.8;
-}
-</style>

@@ -1,7 +1,12 @@
 <template>
   <VContainer>
     <div align="center">
-      <VAvatar :image="avatar" size="24vh" color="grey" />
+      <VAvatar
+        class="default-avatar"
+        :image="consts.DEFAULT_AVATAR"
+        size="24vh"
+        color="grey"
+      />
     </div>
     <VForm class="mt-4" @submit="onSubmit">
       <VTextField
@@ -48,6 +53,7 @@
 </template>
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
+import * as consts from '@/utils/constants';
 import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -88,8 +94,6 @@ const passwordConfirmVisible = ref(false);
 // password.value['onUpdate:modelValue']('12345678');
 // passwordConfirm.value['onUpdate:modelValue']('12345678');
 
-const avatar = ref('/src/assets/logo.svg');
-
 const router = useRouter();
 const createSnackbar = useSnackbar();
 
@@ -109,10 +113,3 @@ const onSubmit = handleSubmit(({ email, username, password }) => {
   );
 });
 </script>
-
-<style lang="less" scoped>
-:deep(.v-avatar img) {
-  top: 8%;
-  scale: 0.8;
-}
-</style>
