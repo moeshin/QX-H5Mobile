@@ -1,16 +1,14 @@
 <template>
   <VWindow v-model="articlesId" mandatory class="fill-height">
     <VWindowItem value="all">
-      <ArticleList :provider="createArtilePagesProvider()" />
+      <ArticleList />
     </VWindowItem>
     <VWindowItem
       v-for="articleCat in articleStore.navArticleCats"
       :key="articleCat.id"
       :value="articleCat.id"
     >
-      <ArticleList
-        :provider="createArtilePagesProviderByArticleCatId(articleCat.id)"
-      />
+      <ArticleList :catId="articleCat.id" />
     </VWindowItem>
   </VWindow>
 </template>
@@ -18,8 +16,8 @@
 <script lang="ts" setup>
 import ArticleList from '@/components/ArticleList.vue';
 import {
-  createArtilePagesProvider,
-  createArtilePagesProviderByArticleCatId,
+  createArticlePagesProvider,
+  createArticlePagesProviderByArticleCatId,
 } from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { ref, watch } from 'vue';

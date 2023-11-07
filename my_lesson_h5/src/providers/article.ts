@@ -1,21 +1,26 @@
 import * as api from '@/api/jqrjq';
 
-export type ArtilePagesProvider = () => Promise<api.ResponsePages<api.Article>>;
+export type ArticlePagesProvider = () => Promise<
+  api.ResponsePages<api.Article>
+>;
 
-export function createArtilePagesProvider(
+export function createArticlePagesProvider(
   current: number = 0,
   size: number = 10,
-): ArtilePagesProvider {
-  const provider = () =>
-    api.getArticlePages(++current, size).then((data) => data.pages);
+): ArticlePagesProvider {
+  // console.warn('current-init', current);
+  const provider = async () => {
+    // console.warn('current', current);
+    return api.getArticlePages(++current, size).then((data) => data.pages);
+  };
   // return () =>
   //   new Promise((resolve) => setTimeout(resolve, 2000)).then(provider);
   return provider;
 }
 
-export function createArtilePagesProviderByArticleCatId(
+export function createArticlePagesProviderByArticleCatId(
   articleCatId: number,
-): ArtilePagesProvider {
+): ArticlePagesProvider {
   return () =>
     api
       .getArrIgnoreNoData(api.getArticlesByCatId(articleCatId), 'articles')

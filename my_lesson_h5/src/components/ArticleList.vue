@@ -37,14 +37,18 @@
 
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
-import { ArtilePagesProvider } from '@/providers/article';
+import {
+  ArticlePagesProvider,
+  createArticlePagesProvider,
+  createArticlePagesProviderByArticleCatId,
+} from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import { VInfiniteScroll } from 'vuetify/labs/VInfiniteScroll';
 
 const props = defineProps<{
-  provider: ArtilePagesProvider;
+  catId?: number;
 }>();
 
 const articleStore = useArticleStore();
@@ -52,6 +56,10 @@ const userStore = useUserStore();
 const articles = ref<api.Article[]>();
 
 let isDone = false;
+const provider: ArticlePagesProvider =
+  props.catId !== undefined
+    ? createArticlePagesProviderByArticleCatId(props.catId)
+    : createArticlePagesProvider();
 
 const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
   // const _done = done;
@@ -63,7 +71,7 @@ const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
     done('empty');
     return;
   }
-  props.provider().then(
+  provider().then(
     (pages) => {
       if (pages.records.length < 1) {
         done('empty');
