@@ -15,10 +15,6 @@
 
 <script lang="ts" setup>
 import ArticleList from '@/components/ArticleList.vue';
-import {
-  createArticlePagesProvider,
-  createArticlePagesProviderByArticleCatId,
-} from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
