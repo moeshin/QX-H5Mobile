@@ -1,1 +1,1 @@
-export const DEFAULT_AVATAR = '/src/assets/logo.svg';
+export { default as DEFAULT_AVATAR } from '@/assets/logo.svg'
