@@ -4,8 +4,9 @@
       <VCardTitle style="white-space: unset">
         <div class="my-2">
           <VChip
+            class="default-avatar"
             color="primary"
-            prepend-icon="mdi-account-circle"
+            :prepend-avatar="consts.DEFAULT_AVATAR"
             :text="
               article && userStore.get(article.userinfoId).value?.userName
             "
@@ -49,6 +50,7 @@
 import * as api from '@/api/jqrjq';
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
+import * as consts from '@/utils/constants';
 import { ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router';
 
