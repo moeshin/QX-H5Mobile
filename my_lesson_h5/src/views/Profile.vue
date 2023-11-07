@@ -1,6 +1,6 @@
 <template>
   <VContainer>
-    <div class="my-4" align="center">
+    <div class="my-4 text-center">
       <VAvatar
         style="width: 12vh; height: 12vh; min-width: 12vw; min-height: 12vw"
         color="grey"
@@ -8,7 +8,10 @@
         :image="consts.DEFAULT_AVATAR"
       />
     </div>
-    <h2 class="my-4" align="center">{{ user?.userName }}</h2>
+    <div class="my-4 text-center">
+      <div class="text-h5">{{ user?.userName }}</div>
+      <div class="text-subtitle-1">{{ user?.email }}</div>
+    </div>
     <VCard>
       <VTabs v-model="tab" color="deep-purple-accent-4" align-tabs="center">
         <VTab value="articles" text="文章" />
