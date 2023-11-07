@@ -8,7 +8,7 @@
       :key="articleCat.id"
       :value="articleCat.id"
     >
-      <ArticleList type="user" :id="articleCat.id" />
+      <ArticleList data-from="user" :data-id="articleCat.id" />
     </VWindowItem>
   </VWindow>
 </template>

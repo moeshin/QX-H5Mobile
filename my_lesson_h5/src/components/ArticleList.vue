@@ -6,7 +6,14 @@
       empty-text="没有更多了"
     >
       <template v-for="article in articles ?? []" :key="article">
-        <VListItem :to="`/article/${article.id}`">
+        <VListItem
+          :to="{
+            name: 'article',
+            params: {
+              id: article.id,
+            },
+          }"
+        >
           <template #default>
             <VListItemTitle style="display: flex">
               <VIcon icon="mdi-account-circle-outline" />
@@ -52,12 +59,12 @@ type DataFrom = 'cat' | 'user';
 
 const props = defineProps<
   | {
-      dataFrom?: undefined;
-      dataId?: undefined;
-    }
-  | {
       dataFrom: DataFrom;
       dataId: number;
+    }
+  | {
+      dataFrom?: undefined;
+      dataId?: undefined;
     }
 >();
 
@@ -66,16 +73,7 @@ const userStore = useUserStore();
 const articles = ref<api.Article[]>();
 
 let isDone = false;
-const provider: ArticlePagesProvider = (() => {
-  switch (props?.dataFrom) {
-    case 'cat':
-      return createArticlePagesProviderByCatId(props.dataId);
-    case 'user':
-      return createArticlePagesProviderByUserId(props.dataId);
-    default:
-      return createArticlePagesProvider();
-  }
-})();
+let provider: ArticlePagesProvider | undefined;
 
 const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
   // const _done = done;
@@ -87,7 +85,23 @@ const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
     done('empty');
     return;
   }
-  provider().then(
+  if (props.dataFrom && props.dataId === undefined) {
+    done('ok');
+    return;
+  }
+  (
+    provider ||
+    (provider = (() => {
+      switch (props?.dataFrom) {
+        case 'cat':
+          return createArticlePagesProviderByCatId(props.dataId);
+        case 'user':
+          return createArticlePagesProviderByUserId(props.dataId);
+        default:
+          return createArticlePagesProvider();
+      }
+    })())
+  )().then(
     (pages) => {
       if (pages.records.length < 1) {
         done('empty');

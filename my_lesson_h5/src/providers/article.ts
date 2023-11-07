@@ -34,9 +34,13 @@ export function createArticlePagesProviderByCatId(
       .then((data) => api.wrapPages(data));
 }
 
-export function createArticlePagesProviderByUserId(id: number) : ArticlePagesProvider {
+export function createArticlePagesProviderByUserId(
+  id: number,
+): ArticlePagesProvider {
   return () =>
     api
-      .getArrIgnoreNoData(api.getArticlesByUserId(id), 'articles')
+      .getArrIgnoreNoData(api.getArticlesByUserId(id), 'articles', [
+        api.ApiCode.failed,
+      ])
       .then((data) => api.wrapPages(data));
 }

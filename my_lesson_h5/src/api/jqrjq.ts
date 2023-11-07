@@ -184,13 +184,14 @@ export const getArrIgnoreNoData = <T, K extends keyof T, V = any>(
     }
   >,
   key: K,
+  apiCodes: number[] = [ApiCode.noData],
 ): Promise<T[K]> =>
   promise.then(
     (data) => data[key],
     (reason) => {
       if (
         reason instanceof ApiDataError &&
-        reason.resp.data.code === ApiCode.noData
+        apiCodes.includes(reason.resp.data.code)
       ) {
         return [] as T[K];
       }
@@ -276,9 +277,10 @@ export const getArticlesByCatId = (id: number) =>
     articles: Article[];
   }>('/api/article/' + id);
 
-export const getArticlesByUserId = (id: number) => apiAxios.get<{
-  articles: Article[];
-}>('/api/article/getArticles/' + id);
+export const getArticlesByUserId = (id: number) =>
+  apiAxios.get<{
+    articles: Article[];
+  }>('/api/article/getArticles/' + id);
 
 export const getArticle = (id: number) =>
   apiAxios.get<{

@@ -67,9 +67,18 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: '/profile',
+        name: 'profile',
         component: () => import('@/views/Profile.vue'),
         meta: {
           title: '个人',
+        },
+      },
+      {
+        path: '/user/:id',
+        name: 'user',
+        component: () => import('@/views/Profile.vue'),
+        meta: {
+          title: '用户',
         },
       },
     ],

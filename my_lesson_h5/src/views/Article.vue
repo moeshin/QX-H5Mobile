@@ -9,6 +9,12 @@
             :text="
               article && userStore.get(article.userinfoId).value?.userName
             "
+            :to="{
+              name: 'user',
+              params: {
+                id: article?.userinfoId,
+              },
+            }"
           />
         </div>
         {{ article?.title }}
@@ -21,7 +27,12 @@
             :text="
               article && articleStore.getArticleCatName(article.articleCatId)
             "
-            :to="`/articleCat/${article?.articleCatId}`"
+            :to="{
+              name: 'articleCat',
+              params: {
+                id: article?.articleCatId,
+              },
+            }"
           />
           <VSpacer />
           <VChip
