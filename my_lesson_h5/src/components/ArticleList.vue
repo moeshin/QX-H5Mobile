@@ -40,26 +40,42 @@ import * as api from '@/api/jqrjq';
 import {
   ArticlePagesProvider,
   createArticlePagesProvider,
-  createArticlePagesProviderByArticleCatId,
+  createArticlePagesProviderByCatId,
+  createArticlePagesProviderByUserId,
 } from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
 import { ref } from 'vue';
 import { VInfiniteScroll } from 'vuetify/labs/VInfiniteScroll';
 
-const props = defineProps<{
-  catId?: number;
-}>();
+type DataFrom = 'cat' | 'user';
+
+const props = defineProps<
+  | {
+      dataFrom?: undefined;
+      dataId?: undefined;
+    }
+  | {
+      dataFrom: DataFrom;
+      dataId: number;
+    }
+>();
 
 const articleStore = useArticleStore();
 const userStore = useUserStore();
 const articles = ref<api.Article[]>();
 
 let isDone = false;
-const provider: ArticlePagesProvider =
-  props.catId !== undefined
-    ? createArticlePagesProviderByArticleCatId(props.catId)
-    : createArticlePagesProvider();
+const provider: ArticlePagesProvider = (() => {
+  switch (props?.dataFrom) {
+    case 'cat':
+      return createArticlePagesProviderByCatId(props.dataId);
+    case 'user':
+      return createArticlePagesProviderByUserId(props.dataId);
+    default:
+      return createArticlePagesProvider();
+  }
+})();
 
 const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
   // const _done = done;

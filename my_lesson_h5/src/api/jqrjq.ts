@@ -276,6 +276,10 @@ export const getArticlesByCatId = (id: number) =>
     articles: Article[];
   }>('/api/article/' + id);
 
+export const getArticlesByUserId = (id: number) => apiAxios.get<{
+  articles: Article[];
+}>('/api/article/getArticles/' + id);
+
 export const getArticle = (id: number) =>
   apiAxios.get<{
     article: Article;

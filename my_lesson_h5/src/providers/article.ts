@@ -18,11 +18,25 @@ export function createArticlePagesProvider(
   return provider;
 }
 
-export function createArticlePagesProviderByArticleCatId(
-  articleCatId: number,
+// export function createArticlePagesProvider(): ArticlePagesProvider {
+//   return () =>
+//     api
+//       .getArrIgnoreNoData(api.getArticles(), 'articles')
+//       .then((data) => api.wrapPages(data));
+// }
+
+export function createArticlePagesProviderByCatId(
+  id: number,
 ): ArticlePagesProvider {
   return () =>
     api
-      .getArrIgnoreNoData(api.getArticlesByCatId(articleCatId), 'articles')
+      .getArrIgnoreNoData(api.getArticlesByCatId(id), 'articles')
+      .then((data) => api.wrapPages(data));
+}
+
+export function createArticlePagesProviderByUserId(id: number) : ArticlePagesProvider {
+  return () =>
+    api
+      .getArrIgnoreNoData(api.getArticlesByUserId(id), 'articles')
       .then((data) => api.wrapPages(data));
 }
