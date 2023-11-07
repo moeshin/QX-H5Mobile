@@ -1,5 +1,5 @@
 <template>
-  <VList lines="two">
+  <VList lines="three">
     <VInfiniteScroll
       :items="articles"
       @load="loadArticles"
@@ -14,27 +14,20 @@
             },
           }"
         >
-          <template #default>
-            <VListItemTitle style="display: flex">
-              <VIcon icon="mdi-account-circle-outline" />
-              <span class="mx-2">
-                {{ userStore.get(article.userinfoId).value?.userName }}
-              </span>
-              <VSpacer />
-              more
-            </VListItemTitle>
-            <VListItemSubtitle
-              class="my-2"
-              style="opacity: inherit; font-size: 1rem; line-height: 1.2rem"
-            >
-              {{ article.title }}
-            </VListItemSubtitle>
-            <VListItemSubtitle style="display: flex">
-              {{ articleStore.getArticleCatName(article.articleCatId) }}
-              <VSpacer />
-              {{ new Date(article.createTime).toLocaleDateString() }}
-            </VListItemSubtitle>
+          <template #prepend>
+            <VAvatar class="default-avatar" :image="consts.DEFAULT_AVATAR" />
           </template>
+          <VListItemTitle>
+            {{ article.title }}
+          </VListItemTitle>
+          <VListItemSubtitle class="text-primary">
+            {{ userStore.get(article.userinfoId).value?.userName }}
+          </VListItemSubtitle>
+          <VListItemSubtitle style="display: flex">
+            {{ articleStore.getArticleCatName(article.articleCatId) }}
+            <VSpacer />
+            {{ new Date(article.createTime).toLocaleDateString() }}
+          </VListItemSubtitle>
         </VListItem>
         <VDivider />
       </template>
@@ -52,6 +45,7 @@ import {
 } from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
+import * as consts from '@/utils/constants';
 import { ref } from 'vue';
 import { VInfiniteScroll } from 'vuetify/labs/VInfiniteScroll';
 
