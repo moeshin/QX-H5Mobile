@@ -70,7 +70,7 @@ const routes: RouteRecordRaw[] = [
         name: 'profile',
         component: () => import('@/views/Profile.vue'),
         meta: {
-          title: '个人',
+          title: '个人信息',
         },
       },
       {
