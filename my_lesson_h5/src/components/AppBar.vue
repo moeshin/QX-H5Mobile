@@ -37,7 +37,7 @@
       <VBtn to="/login" icon="mdi-account" text="登录" />
     </template>
 
-    <template v-if="route.meta.showArticleCatNavBar" #extension>
+    <template v-if="$route.meta.showArticleCatNavBar" #extension>
       <ArticleCatNavBar />
     </template>
   </VAppBar>
@@ -51,13 +51,13 @@ import { useRoute } from 'vue-router';
 import { VAppBar, VAppBarTitle, VBtn, VSpacer } from 'vuetify/components';
 import ArticleCatNavBar from './ArticleCatNavBar.vue';
 
-const route = useRoute();
+const $route = useRoute();
 const authStore = useAuthStore();
 
 const title = ref('');
 
 watch(
-  () => route.meta.title,
+  () => $route.meta.title,
   (value) => {
     title.value = value as string;
   },

@@ -19,23 +19,23 @@ import { useArticleStore } from '@/store/article';
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-const router = useRouter();
-const route = useRoute();
+const $router = useRouter();
+const $route = useRoute();
 
 const articleStore = useArticleStore();
 const articlesId = ref<number | 'all'>(
-  route.params.id ? parseInt(route.params.id as string) : 'all',
+  $route.params.id ? parseInt($route.params.id as string) : 'all',
 );
 
 watch(articlesId, (id) => {
   // console.log('watch articles', id);
   if (id === 'all') {
-    router.push({
+    $router.push({
       name: 'articles',
     });
     return;
   }
-  router.push({
+  $router.push({
     name: 'articleCat',
     params: {
       id,
@@ -43,10 +43,10 @@ watch(articlesId, (id) => {
   });
 });
 watch(
-  () => route.params.id,
+  () => $route.params.id,
   (id) => {
     // console.log('watch route.params.id', id);
-    switch (route.name) {
+    switch ($route.name) {
       case 'articleCat':
         articlesId.value = parseInt(id as string);
         break;

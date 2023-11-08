@@ -46,12 +46,12 @@ import { storeToRefs } from 'pinia';
 import { ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
+const $route = useRoute();
 
 const user: Ref<api.UserInfo | undefined> =
-  route.name === 'profile'
+  $route.name === 'profile'
     ? storeToRefs(useAuthStore()).user
-    : useUserStore().get(route.params.id as any);
+    : useUserStore().get($route.params.id as any);
 
 const tab = ref<number | string>();
 const tabs = ['关注', '动态', '收藏'];

@@ -60,6 +60,7 @@ import { useRouter } from 'vue-router';
 import { useNotifier } from 'vuetify-notifier';
 import * as yup from 'yup';
 
+const $router = useRouter();
 const $notifier = useNotifier();
 
 const schema = yup.object({
@@ -96,13 +97,11 @@ const passwordConfirmVisible = ref(false);
 // password.value['onUpdate:modelValue']('12345678');
 // passwordConfirm.value['onUpdate:modelValue']('12345678');
 
-const router = useRouter();
-
 const onSubmit = handleSubmit(({ email, username, password }) => {
   api.register(email, username, password).then(
     () => {
       $notifier.toastSuccess('注册成功');
-      router.push('/profile');
+      $router.push('/profile');
     },
     (reason) => {
       if (reason instanceof api.ApiDataError) {

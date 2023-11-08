@@ -36,7 +36,10 @@ import { useRouter } from 'vue-router';
 import { useNotifier } from 'vuetify-notifier';
 import * as yup from 'yup';
 
+const $router = useRouter();
 const $notifier = useNotifier();
+
+const authStore = useAuthStore();
 
 const schema = yup.object({
   email: yup.string().label('邮箱').email().required(),
@@ -61,16 +64,13 @@ const passwordVisible = ref(false);
 // email.value['onUpdate:modelValue']('a@a.a');
 // password.value['onUpdate:modelValue']('12345678');
 
-const router = useRouter();
-const authStore = useAuthStore();
-
 const onSubmit = handleSubmit(({ email, password }) => {
   console.log('onSubmit', { email, password });
   api.login(email, password).then(
     ({ userinfo }) => {
       authStore.user = userinfo;
       $notifier.toastSuccess('登录成功');
-      router.push('/profile');
+      $router.push('/profile');
     },
     (reason) => {
       if (reason instanceof api.ApiDataError) {
