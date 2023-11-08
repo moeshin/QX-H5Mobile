@@ -4,23 +4,22 @@
       <VCardTitle style="white-space: unset">
         {{ article?.title }}
       </VCardTitle>
-      <VCardSubtitle>
-        <div class="pb-2">
-          <VChip
-            class="default-avatar"
-            color="primary"
-            :prepend-avatar="consts.DEFAULT_AVATAR"
-            :text="article && userStore.get(article.userinfoId).value?.userName"
-            :to="{
-              name: 'user',
-              params: {
-                id: article?.userinfoId,
-              },
-            }"
-          />
-        </div>
-        <div style="display: flex">
-          <VChip
+      <VCardItem class="pt-0">
+        <VChip
+          class="default-avatar"
+          color="primary"
+          :prepend-avatar="consts.DEFAULT_AVATAR"
+          :text="article && userStore.get(article.userinfoId).value?.userName"
+          :to="{
+            name: 'user',
+            params: {
+              id: article?.userinfoId,
+            },
+          }"
+        />
+      </VCardItem>
+      <VCardSubtitle style="display: flex">
+        <VChip
             color="pink"
             prepend-icon="mdi-label"
             :text="
@@ -38,7 +37,6 @@
             prepend-icon="mdi-clock"
             :text="article && new Date(article.createTime).toLocaleDateString()"
           />
-        </div>
       </VCardSubtitle>
       <VCardText>{{ article?.content }}</VCardText>
     </VCard>
