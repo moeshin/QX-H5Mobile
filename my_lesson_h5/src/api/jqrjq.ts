@@ -19,6 +19,7 @@ export enum ApiCode {
   noData = 2,
   validatedError = 1005,
   custom = 2000,
+  tokenError = 2005,
 }
 
 export class ApiDataError extends Error {
