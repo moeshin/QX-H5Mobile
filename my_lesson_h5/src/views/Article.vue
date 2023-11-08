@@ -2,14 +2,15 @@
   <VContainer>
     <VCard>
       <VCardTitle style="white-space: unset">
-        <div class="my-2">
+        {{ article?.title }}
+      </VCardTitle>
+      <VCardSubtitle>
+        <div class="pb-2">
           <VChip
             class="default-avatar"
             color="primary"
             :prepend-avatar="consts.DEFAULT_AVATAR"
-            :text="
-              article && userStore.get(article.userinfoId).value?.userName
-            "
+            :text="article && userStore.get(article.userinfoId).value?.userName"
             :to="{
               name: 'user',
               params: {
@@ -18,10 +19,7 @@
             }"
           />
         </div>
-        {{ article?.title }}
-      </VCardTitle>
-      <VCardSubtitle>
-        <div style="display: flex;">
+        <div style="display: flex">
           <VChip
             color="pink"
             prepend-icon="mdi-label"
@@ -54,13 +52,14 @@ import * as consts from '@/utils/constants';
 import { ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router';
 
+const $route = useRoute();
+
 const articleStore = useArticleStore();
 const userStore = useUserStore();
 
 const article = ref<api.Article | undefined>(undefined);
 
 (() => {
-  const $route = useRoute();
   let isCurrentRoute = true;
 
   onBeforeRouteLeave(() => {
