@@ -6,7 +6,7 @@
 
 // Plugins
 import vuetify from './vuetify';
-import VuetifyUseDialog from 'vuetify-use-dialog';
+import VuetifyNotifier from 'vuetify-notifier';
 import * as yup from './yup';
 
 import pinia from '../store';
@@ -20,7 +20,11 @@ export function registerPlugins(app: App) {
 
   app
     .use(vuetify)
-    .use(VuetifyUseDialog)
+    .use(VuetifyNotifier, {
+      default: {
+        defaultColor: 'secondary',
+      },
+    })
     .use(router)
     .use(pinia);
 }

@@ -57,8 +57,10 @@ import * as consts from '@/utils/constants';
 import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSnackbar } from 'vuetify-use-dialog';
+import { useNotifier } from 'vuetify-notifier';
 import * as yup from 'yup';
+
+const $notifier = useNotifier();
 
 const schema = yup.object({
   username: yup.string().label('账号').min(8).max(20).required(),
@@ -95,17 +97,20 @@ const passwordConfirmVisible = ref(false);
 // passwordConfirm.value['onUpdate:modelValue']('12345678');
 
 const router = useRouter();
-const createSnackbar = useSnackbar();
 
 const onSubmit = handleSubmit(({ email, username, password }) => {
   api.register(email, username, password).then(
     () => {
+      $notifier.toastSuccess('注册成功');
       router.push('/profile');
     },
     (reason) => {
       if (reason instanceof api.ApiDataError) {
         console.warn(reason);
-        createSnackbar({ text: reason.message });
+        $notifier.alertError({
+          title: '注册失败',
+          text: reason.message,
+        });
       } else {
         console.error(reason);
       }

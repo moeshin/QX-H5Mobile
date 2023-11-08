@@ -29,12 +29,14 @@
 </template>
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
+import { useAuthStore } from '@/store/auth';
 import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSnackbar } from 'vuetify-use-dialog';
-import { useAuthStore } from '@/store/auth';
+import { useNotifier } from 'vuetify-notifier';
 import * as yup from 'yup';
+
+const $notifier = useNotifier();
 
 const schema = yup.object({
   email: yup.string().label('邮箱').email().required(),
@@ -60,7 +62,6 @@ const passwordVisible = ref(false);
 // password.value['onUpdate:modelValue']('12345678');
 
 const router = useRouter();
-const createSnackbar = useSnackbar();
 const authStore = useAuthStore();
 
 const onSubmit = handleSubmit(({ email, password }) => {
@@ -68,12 +69,16 @@ const onSubmit = handleSubmit(({ email, password }) => {
   api.login(email, password).then(
     ({ userinfo }) => {
       authStore.user = userinfo;
+      $notifier.toastSuccess('登录成功');
       router.push('/profile');
     },
     (reason) => {
       if (reason instanceof api.ApiDataError) {
         console.warn(reason);
-        createSnackbar({ text: reason.message });
+        $notifier.alertError({
+          title: '登录失败',
+          text: reason.message,
+        });
       } else {
         console.error(reason);
       }
