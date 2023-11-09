@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useAsyncState } from '@vueuse/core';
 import * as api from '@/api/jqrjq';
@@ -24,5 +24,6 @@ export const useArticleStore = defineStore('article', () => {
     getArticleCatName(id: number) {
       return articleCatMap.value.get(id)?.catName;
     },
+    navCurrent: ref<number | 'all' | 'none' | undefined>(),
   };
 });

@@ -1,5 +1,5 @@
 <template>
-  <VTabs v-model="currentItem" mandatory center-active>
+  <VTabs v-model="navCurrent" mandatory center-active>
     <VTab
       value="all"
       text="全部"
@@ -34,7 +34,7 @@
         <VCardText>
           <VRow>
             <VCol cols="4">
-              <VBtnToggle v-model="currentItem" mandatory>
+              <VBtnToggle v-model="navCurrent" mandatory>
                 <VBtn
                   value="all"
                   text="全部"
@@ -46,7 +46,7 @@
             </VCol>
             <template v-for="item in navArticleCats" :key="item.id">
               <VCol cols="4">
-                <VBtnToggle v-model="currentItem" mandatory>
+                <VBtnToggle v-model="navCurrent" mandatory>
                   <VBtn
                     :value="item.id"
                     :text="item.catName"
@@ -70,21 +70,37 @@
 <script lang="ts" setup>
 import { useArticleStore } from '@/store/article';
 import { storeToRefs } from 'pinia';
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const $route = useRoute();
-
-const currentItem = ref<number | 'all'>();
+const $router = useRouter();
 
 const articleStore = useArticleStore();
-const { navArticleCats } = storeToRefs(articleStore);
+const { navArticleCats, navCurrent } = storeToRefs(articleStore);
 
+watch(navCurrent, (v) => {
+  if (typeof v === 'number') {
+    $router.push({
+      name: 'articleCat',
+      params: {
+        id: v,
+      },
+    });
+    return;
+  }
+  if (v === 'all') {
+    $router.push({
+      name: 'articles',
+    });
+    return;
+  }
+});
 watch(
   () => $route.name,
   (name) => {
     if (!['articles', 'articleCat'].includes(name as any)) {
-      currentItem.value = undefined;
+      navCurrent.value = undefined;
     }
   },
 );
@@ -95,10 +111,14 @@ watch(
       const catId = parseInt(id as string);
       articleStore.articleCats.then(() => {
         if (!articleStore.articleCatMap.has(catId)) {
-          currentItem.value = undefined;
+          navCurrent.value = 'none';
+          console.log('none');
         }
       });
     }
+  },
+  {
+    immediate: true,
   },
 );
 </script>

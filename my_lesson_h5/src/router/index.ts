@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/articleCat/:id',
         name: 'articleCat',
-        component: () => import('@/components/ArticleWindow.vue'),
+        component: () => import('@/components/ArticleNavView.vue'),
         meta: {
           title: '文章分类',
           showArticleCatNavBar: true,
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/articles',
         name: 'articles',
-        component: () => import('@/components/ArticleWindow.vue'),
+        component: () => import('@/components/ArticleNavView.vue'),
         meta: {
           title: '所有文章',
           showArticleCatNavBar: true,
