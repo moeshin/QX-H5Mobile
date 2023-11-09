@@ -1,22 +1,35 @@
 import * as api from '@/api/jqrjq';
-import { useAsyncState } from '@vueuse/core';
+import { useAsyncState, UseAsyncStateReturn } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import { Ref, ref } from 'vue';
+import { reactive } from 'vue';
+
+export type UserState = api.UserInfo | null | undefined;
 
 export const useUserStore = defineStore('user', () => {
-  const cache = ref(new Map<number, Ref<api.UserInfo | undefined>>());
+  const cache = new Map<number, UseAsyncStateReturn<UserState, [], true>>();
   return {
     cache,
     get(id: number) {
-      let info = cache.value.get(id);
-      if (!info) {
-        const { state } = useAsyncState<api.UserInfo | undefined>(
-          api.getUserInfo(id).then((data) => data.userinfo),
+      let value = cache.get(id);
+      if (!value) {
+        const asyncState = useAsyncState<UserState>(
+          api.getUserInfo(id).then(
+            (data) => data.userinfo,
+            (reason) => {
+              if (
+                reason instanceof api.ApiDataError &&
+                reason.resp.data.code === api.ApiCode.failed
+              ) {
+                return null;
+              }
+              return Promise.reject(reason);
+            },
+          ),
           undefined,
         );
-        cache.value.set(id, (info = state));
+        cache.set(id, (value = asyncState));
       }
-      return info;
+      return value;
     },
   };
 });

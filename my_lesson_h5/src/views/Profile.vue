@@ -1,62 +1,80 @@
 <template>
   <VContainer>
-    <div class="my-4 text-center">
-      <VAvatar
-        style="width: 12vh; height: 12vh; min-width: 12vw; min-height: 12vw"
-        color="grey"
-        class="default-avatar"
-        :image="consts.DEFAULT_AVATAR"
-      />
-    </div>
-    <div class="my-4 text-center">
-      <div class="text-h5">{{ user?.userName }}</div>
-      <div class="text-subtitle-1">{{ user?.email }}</div>
-    </div>
-    <VCard>
-      <VTabs v-model="tab" color="deep-purple-accent-4" align-tabs="center">
-        <VTab value="articles" text="文章" />
-        <VTab
-          v-for="(item, index) of tabs"
-          :key="index"
-          :value="index"
-          :text="item"
+    <template v-if="user === null">
+      <div class="text-center text-h6">用户不存在</div>
+    </template>
+    <template v-else>
+      <div class="my-4 text-center">
+        <VAvatar
+          style="width: 12vh; height: 12vh; min-width: 12vw; min-height: 12vw"
+          color="grey"
+          class="default-avatar"
+          :image="consts.DEFAULT_AVATAR"
         />
-      </VTabs>
-      <VWindow v-model="tab">
-        <VWindowItem value="articles">
-          <ArticleList
-            :data="{
-              type: 'user',
-              id: user?.id,
-            }"
+      </div>
+      <div class="my-4 text-center">
+        <div class="text-h5">{{ user?.userName }}</div>
+        <div class="text-subtitle-1">{{ user?.email }}</div>
+      </div>
+      <VCard>
+        <VTabs v-model="tab" color="deep-purple-accent-4" align-tabs="center">
+          <VTab value="articles" text="文章" />
+          <VTab
+            v-for="(item, index) of tabs"
+            :key="index"
+            :value="index"
+            :text="item"
           />
-        </VWindowItem>
-        <VWindowItem v-for="(item, index) of tabs" :key="index" :value="index">
-          <VContainer fluid>
-            <h3 align="center">{{ item }}</h3>
-            <p>{{ 'x'.repeat(2e3 + index * 8) }}</p>
-          </VContainer>
-        </VWindowItem>
-      </VWindow>
-    </VCard>
+        </VTabs>
+        <VWindow v-model="tab">
+          <VWindowItem value="articles">
+            <ArticleList
+              :data="{
+                type: 'user',
+                id: user?.id,
+              }"
+            />
+          </VWindowItem>
+          <VWindowItem
+            v-for="(item, index) of tabs"
+            :key="index"
+            :value="index"
+          >
+            <VContainer fluid>
+              <h3 align="center">{{ item }}</h3>
+              <p>{{ 'x'.repeat(2e3 + index * 8) }}</p>
+            </VContainer>
+          </VWindowItem>
+        </VWindow>
+      </VCard>
+    </template>
   </VContainer>
 </template>
 <script lang="ts" setup>
-import * as api from '@/api/jqrjq';
 import ArticleList from '@/components/ArticleList.vue';
 import { useAuthStore } from '@/store/auth';
-import { useUserStore } from '@/store/user';
+import { UserState, useUserStore } from '@/store/user';
 import * as consts from '@/utils/constants';
-import { storeToRefs } from 'pinia';
-import { ref, Ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { Ref, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
+const $router = useRouter();
 const $route = useRoute();
 
-const user: Ref<api.UserInfo | undefined> =
+const user: Ref<UserState> = useUserStore().get(
   $route.name === 'profile'
-    ? storeToRefs(useAuthStore()).user
-    : useUserStore().get($route.params.id as any);
+    ? useAuthStore().user?.id!
+    : parseInt($route.params.id as string),
+).state;
+
+watch(
+  () => $route.params.id,
+  () => {
+    if ($route.name === 'user') {
+      $router.go(0);
+    }
+  },
+);
 
 const tab = ref<number | string>();
 const tabs = ['关注', '动态', '收藏'];

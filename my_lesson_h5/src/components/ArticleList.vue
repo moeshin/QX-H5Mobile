@@ -21,7 +21,7 @@
             {{ article.title }}
           </VListItemTitle>
           <VListItemSubtitle class="text-primary">
-            {{ userStore.get(article.userinfoId).value?.userName }}
+            {{ userStore.get(article.userinfoId).state.value?.userName }}
           </VListItemSubtitle>
           <VListItemSubtitle style="display: flex">
             {{ articleStore.getArticleCatName(article.articleCatId) }}
@@ -39,10 +39,10 @@
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
 import {
-ArticlePagesProvider,
-createArticlePagesProvider,
-createArticlePagesProviderByCatId,
-createArticlePagesProviderByUserId,
+  ArticlePagesProvider,
+  createArticlePagesProvider,
+  createArticlePagesProviderByCatId,
+  createArticlePagesProviderByUserId,
 } from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
