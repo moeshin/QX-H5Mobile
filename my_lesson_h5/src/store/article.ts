@@ -4,13 +4,13 @@ import { useAsyncState } from '@vueuse/core';
 import * as api from '@/api/jqrjq';
 
 export const useArticleStore = defineStore('article', () => {
-  const { state: articleCats } = useAsyncState<api.ArticleCat[]>(
+  const articleCats = useAsyncState<api.ArticleCat[]>(
     api.getArticleCatAll().then((data) => data.articleCats),
     [],
   );
   const articleCatMap = computed(() => {
     const map = new Map<number, api.ArticleCat>();
-    for (const articleCat of articleCats.value) {
+    for (const articleCat of articleCats.state.value) {
       map.set(articleCat.id, articleCat);
     }
     return map;
@@ -18,7 +18,7 @@ export const useArticleStore = defineStore('article', () => {
   return {
     articleCats,
     navArticleCats: computed(() =>
-      articleCats.value.filter((v) => v.showInNav && !v.deleted),
+      articleCats.state.value.filter((v) => v.showInNav && !v.deleted),
     ),
     articleCatMap,
     getArticleCatName(id: number) {

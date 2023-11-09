@@ -1,5 +1,5 @@
 <template>
-  <VTabs v-model="navArticlesId" mandatory center-active>
+  <VTabs v-model="currentItem" mandatory center-active>
     <VTab
       value="all"
       text="全部"
@@ -34,7 +34,7 @@
         <VCardText>
           <VRow>
             <VCol cols="4">
-              <VBtnToggle v-model="navArticlesId" mandatory>
+              <VBtnToggle v-model="currentItem" mandatory>
                 <VBtn
                   value="all"
                   text="全部"
@@ -46,7 +46,7 @@
             </VCol>
             <template v-for="item in navArticleCats" :key="item.id">
               <VCol cols="4">
-                <VBtnToggle v-model="navArticlesId" mandatory>
+                <VBtnToggle v-model="currentItem" mandatory>
                   <VBtn
                     :value="item.id"
                     :text="item.catName"
@@ -70,18 +70,37 @@
 <script lang="ts" setup>
 import { useArticleStore } from '@/store/article';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
-import { onBeforeRouteUpdate } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-const navArticlesId = ref<number | 'all'>();
-const { navArticleCats } = storeToRefs(useArticleStore());
+const $route = useRoute();
 
-onBeforeRouteUpdate((route, _, next) => {
-  if (!['articles', 'articleCat'].includes(route.name as any)) {
-    navArticlesId.value = undefined;
-  }
-  next();
-});
+const currentItem = ref<number | 'all'>();
+
+const articleStore = useArticleStore();
+const { navArticleCats } = storeToRefs(articleStore);
+
+watch(
+  () => $route.name,
+  (name) => {
+    if (!['articles', 'articleCat'].includes(name as any)) {
+      currentItem.value = undefined;
+    }
+  },
+);
+watch(
+  () => $route.params.id,
+  (id) => {
+    if ($route.name === 'articleCat') {
+      const catId = parseInt(id as string);
+      articleStore.articleCats.then(() => {
+        if (!articleStore.articleCatMap.has(catId)) {
+          currentItem.value = undefined;
+        }
+      });
+    }
+  },
+);
 </script>
 
 <style lang="less" scoped>
