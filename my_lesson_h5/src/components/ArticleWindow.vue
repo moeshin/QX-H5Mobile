@@ -4,11 +4,14 @@
       <ArticleList />
     </VWindowItem>
     <VWindowItem
-      v-for="articleCat in articleStore.navArticleCats"
+      v-for="articleCat in articleStore.articleCats"
       :key="articleCat.id"
       :value="articleCat.id"
     >
-      <ArticleList data-from="user" :data-id="articleCat.id" />
+      <ArticleList :src="{
+        type: 'user',
+        id: articleCat.id,
+      }" />
     </VWindowItem>
   </VWindow>
 </template>

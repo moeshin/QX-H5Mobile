@@ -31,6 +31,7 @@
         </VListItem>
         <VDivider />
       </template>
+      <template #error>{{ errorMessage }}</template>
     </VInfiniteScroll>
   </VList>
 </template>
@@ -46,28 +47,54 @@ import {
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
 import * as consts from '@/utils/constants';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { VInfiniteScroll } from 'vuetify/labs/VInfiniteScroll';
 
-type DataFrom = 'cat' | 'user';
-
-const props = defineProps<
-  | {
-      dataFrom: DataFrom;
-      dataId: number;
-    }
-  | {
-      dataFrom?: undefined;
-      dataId?: undefined;
-    }
->();
+const $props = defineProps<{
+  src?: {
+    type: 'cat' | 'user';
+    id: number | undefined;
+  };
+}>();
 
 const articleStore = useArticleStore();
 const userStore = useUserStore();
+
 const articles = ref<api.Article[]>();
+const errorMessage = ref<string>();
 
 let isDone = false;
 let provider: ArticlePagesProvider | undefined;
+
+watch(
+  () => $props.src,
+  (src, oldSrc) => {
+    if (provider) {
+      console.warn('src changed', src, oldSrc);
+      return;
+    }
+    provider = (() => {
+      if (src === undefined) {
+        return createArticlePagesProvider();
+      }
+      const { id } = src;
+      if (id === undefined) {
+        return undefined;
+      }
+      switch (src.type) {
+        case 'cat':
+          return createArticlePagesProviderByCatId(id);
+        case 'user':
+          return createArticlePagesProviderByUserId(id);
+        default:
+          return undefined;
+      }
+    })();
+  },
+  {
+    immediate: true,
+  },
+);
 
 const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
   // const _done = done;
@@ -79,23 +106,11 @@ const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
     done('empty');
     return;
   }
-  if (props.dataFrom && props.dataId === undefined) {
+  if (provider === undefined) {
     done('ok');
     return;
   }
-  (
-    provider ||
-    (provider = (() => {
-      switch (props?.dataFrom) {
-        case 'cat':
-          return createArticlePagesProviderByCatId(props.dataId);
-        case 'user':
-          return createArticlePagesProviderByUserId(props.dataId);
-        default:
-          return createArticlePagesProvider();
-      }
-    })())
-  )().then(
+  provider().then(
     (pages) => {
       if (pages.records.length < 1) {
         done('empty');
@@ -110,8 +125,19 @@ const loadArticles: VInfiniteScroll['$props']['onLoad'] = ({ done }) => {
       isDone = api.isLatestPages(pages);
       done('ok');
     },
-    (reason) => {
+    (
+      reason:
+        | {
+            toString?: (...args: any) => string;
+          }
+        | Error
+        | undefined,
+    ) => {
       console.error(reason);
+      errorMessage.value =
+        reason instanceof Error
+          ? reason.message
+          : reason?.toString && reason.toString();
       done('error');
     },
   );

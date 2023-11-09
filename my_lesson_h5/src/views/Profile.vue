@@ -24,7 +24,10 @@
       </VTabs>
       <VWindow v-model="tab">
         <VWindowItem value="articles">
-          <ArticleList data-from="user" :data-id="user?.id" />
+          <ArticleList :src="{
+            type: 'user',
+            id: user?.id,
+          }" />
         </VWindowItem>
         <VWindowItem v-for="(item, index) of tabs" :key="index" :value="index">
           <VContainer fluid>
