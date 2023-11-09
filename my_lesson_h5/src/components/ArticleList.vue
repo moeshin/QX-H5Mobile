@@ -39,10 +39,10 @@
 <script lang="ts" setup>
 import * as api from '@/api/jqrjq';
 import {
-  ArticlePagesProvider,
-  createArticlePagesProvider,
-  createArticlePagesProviderByCatId,
-  createArticlePagesProviderByUserId,
+ArticlePagesProvider,
+createArticlePagesProvider,
+createArticlePagesProviderByCatId,
+createArticlePagesProviderByUserId,
 } from '@/providers/article';
 import { useArticleStore } from '@/store/article';
 import { useUserStore } from '@/store/user';
@@ -50,12 +50,24 @@ import * as consts from '@/utils/constants';
 import { ref, watch } from 'vue';
 import { VInfiniteScroll } from 'vuetify/labs/VInfiniteScroll';
 
-const $props = defineProps<{
-  src?: {
-    type: 'cat' | 'user';
-    id: number | undefined;
-  };
-}>();
+const $props = withDefaults(
+  defineProps<{
+    data?:
+      | {
+          type: 'all';
+          id?: undefined;
+        }
+      | {
+          type: 'cat' | 'user';
+          id: number | undefined;
+        };
+  }>(),
+  {
+    data: () => ({
+      type: 'all',
+    }),
+  },
+);
 
 const articleStore = useArticleStore();
 const userStore = useUserStore();
@@ -67,21 +79,21 @@ let isDone = false;
 let provider: ArticlePagesProvider | undefined;
 
 watch(
-  () => $props.src,
-  (src, oldSrc) => {
+  [() => $props.data.type, () => $props.data.id],
+  (newData, oldData) => {
     if (provider) {
-      console.warn('src changed', src, oldSrc);
+      console.warn('data changed', newData, oldData);
       return;
     }
+    const [type, id] = newData;
     provider = (() => {
-      if (src === undefined) {
+      if (type === 'all') {
         return createArticlePagesProvider();
       }
-      const { id } = src;
       if (id === undefined) {
         return undefined;
       }
-      switch (src.type) {
+      switch (type) {
         case 'cat':
           return createArticlePagesProviderByCatId(id);
         case 'user':

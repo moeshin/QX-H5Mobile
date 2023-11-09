@@ -8,10 +8,12 @@
       :key="articleCat.id"
       :value="articleCat.id"
     >
-      <ArticleList :src="{
-        type: 'user',
-        id: articleCat.id,
-      }" />
+      <ArticleList
+        :data="{
+          type: 'user',
+          id: articleCat.id,
+        }"
+      />
     </VWindowItem>
   </VWindow>
 </template>
