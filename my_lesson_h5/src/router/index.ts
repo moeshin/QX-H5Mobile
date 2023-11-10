@@ -5,11 +5,11 @@ import { useAuthStore } from '@/store/auth';
 const routes: RouteRecordRaw[] = [
   {
     path: '',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: () => import('@/layouts/default/WDefault.vue'),
     children: [
       {
         path: '',
-        component: () => import('@/views/Home.vue'),
+        component: () => import('@/views/WHome.vue'),
         meta: {
           title: '首页',
           showArticleCatNavBar: true,
@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/articleCat/:id',
         name: 'articleCat',
-        component: () => import('@/components/ArticleNavView.vue'),
+        component: () => import('@/components/WArticleNavWindow.vue'),
         meta: {
           title: '文章分类',
           showArticleCatNavBar: true,
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/articles',
         name: 'articles',
-        component: () => import('@/components/ArticleNavView.vue'),
+        component: () => import('@/components/WArticleNavWindow.vue'),
         meta: {
           title: '所有文章',
           showArticleCatNavBar: true,
@@ -36,21 +36,21 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/article/:id',
         name: 'article',
-        component: () => import('@/views/Article.vue'),
+        component: () => import('@/views/WArticle.vue'),
         meta: {
           title: '文章',
         },
       },
       {
         path: '/register',
-        component: () => import('@/views/Register.vue'),
+        component: () => import('@/views/WRegister.vue'),
         meta: {
           title: '注册',
         },
       },
       {
         path: '/login',
-        component: () => import('@/views/Login.vue'),
+        component: () => import('@/views/WLogin.vue'),
         meta: {
           title: '登录',
         },
@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/profile',
         name: 'profile',
-        component: () => import('@/views/Profile.vue'),
+        component: () => import('@/views/WProfile.vue'),
         meta: {
           title: '个人信息',
         },
@@ -76,7 +76,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/user/:id',
         name: 'user',
-        component: () => import('@/views/Profile.vue'),
+        component: () => import('@/views/WProfile.vue'),
         meta: {
           title: '用户',
         },

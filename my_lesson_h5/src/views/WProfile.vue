@@ -28,7 +28,7 @@
         </VTabs>
         <VWindow v-model="tab">
           <VWindowItem value="articles">
-            <ArticleList
+            <WArticleList
               :data="{
                 type: 'user',
                 id: user?.id,
@@ -51,7 +51,7 @@
   </VContainer>
 </template>
 <script lang="ts" setup>
-import ArticleList from '@/components/ArticleList.vue';
+import WArticleList from '@/components/WArticleList.vue';
 import { useAuthStore } from '@/store/auth';
 import { UserState, useUserStore } from '@/store/user';
 import * as consts from '@/utils/constants';

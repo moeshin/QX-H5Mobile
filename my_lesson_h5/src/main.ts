@@ -7,7 +7,7 @@
 import '@/styles/global.less';
 
 // Components
-import App from './App.vue';
+import WApp from './WApp.vue';
 
 // Composables
 import { createApp } from 'vue';
@@ -15,7 +15,7 @@ import { createApp } from 'vue';
 // Plugins
 import { registerPlugins } from '@/plugins';
 
-const app = createApp(App);
+const app = createApp(WApp);
 
 registerPlugins(app);
 

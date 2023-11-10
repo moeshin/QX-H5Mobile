@@ -38,7 +38,7 @@
     </template>
 
     <template v-if="$route.meta.showArticleCatNavBar" #extension>
-      <ArticleCatNavBar />
+      <WArticleCatNavBar />
     </template>
   </VAppBar>
 </template>
@@ -49,7 +49,7 @@ import * as consts from '@/utils/constants';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { VAppBar, VAppBarTitle, VBtn, VSpacer } from 'vuetify/components';
-import ArticleCatNavBar from './ArticleNavBar.vue';
+import WArticleCatNavBar from './WArticleNavBar.vue';
 
 const $route = useRoute();
 const authStore = useAuthStore();

@@ -4,14 +4,14 @@
       <div class="text-center py-8">没有该分类</div>
     </VWindowItem>
     <VWindowItem value="all">
-      <ArticleList />
+      <WArticleList />
     </VWindowItem>
     <VWindowItem
       v-for="articleCat in articleStore.articleCats.state"
       :key="articleCat.id"
       :value="articleCat.id"
     >
-      <ArticleList
+      <WArticleList
         :data="{
           type: 'cat',
           id: articleCat.id,
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import ArticleList from '@/components/ArticleList.vue';
+import WArticleList from '@/components/WArticleList.vue';
 import { useArticleStore } from '@/store/article';
 import { storeToRefs } from 'pinia';
 
