@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/store/auth';
 import {
   AxiosError,
   AxiosInstance,
@@ -101,6 +102,11 @@ export const apiAxios: ApiAxios = axios.create({
       'mlhdCI6MTY5NzY5ODU5NzY1N30.JMK3jD5VlxtS7bKGBPijuGEea6sYuOTWufgsWVT9QeD' +
       'ZPDGv_PjEwmiU-7KrXsT-mosmFJoWK2GIwgtVKxUHdQ',
   },
+});
+
+apiAxios.interceptors.request.use((request) => {
+  request.headers['token'] = useAuthStore().user?.token;
+  return request;
 });
 
 apiAxios.interceptors.response.use(

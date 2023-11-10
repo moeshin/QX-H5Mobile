@@ -99,12 +99,11 @@ router.beforeEach((to, _from, next) => {
         return;
       }
       break;
-    case '/profile':
+    default:
       if (!useAuthStore().isLogin) {
         next('/login');
         return;
       }
-      break;
   }
   next();
 });
