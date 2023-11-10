@@ -1,6 +1,9 @@
 <template>
   <VContainer>
-    <VCard>
+    <div v-if="article === undefined" class="text-center text-h6">
+      文章不存在
+    </div>
+    <VCard v-else>
       <VCardTitle style="white-space: unset">
         {{ article?.title }}
       </VCardTitle>
@@ -60,16 +63,10 @@ const userStore = useUserStore();
 const article = ref<api.Article>();
 
 (() => {
-  let isCurrentRoute = true;
-
-  onBeforeRouteLeave(() => {
-    isCurrentRoute = false;
-  });
-
   watch(
     () => $route.params.id,
     (id) => {
-      if (isCurrentRoute) {
+      if ($route.name === 'article') {
         api.getArticle(parseInt(id as string)).then(
           (data) => {
             article.value = data.article;
