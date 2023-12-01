@@ -1,4 +1,4 @@
-import useUserStore from '@/store/user.js'
+import useUserStore from '@/store/user'
 import config from './config.js';
 const request = (options) => {
 	const {
