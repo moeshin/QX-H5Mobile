@@ -8,7 +8,7 @@
 			<view class="my" :style="{ backgroundColor: style.bgColor }">
 				<view class="my-pic">
 					<!-- <uni-icons type="person" size="60" color="white"></uni-icons> -->
-					<image mode="aspectFit" :src="wxUserinfo.avatarUrl"></image>
+					<image mode="aspectFit" :src="wxUserinfo?.avatarUrl"></image>
 					<uni-icons class="my-pic-upload" type="cloud-upload" size="18" color="#d4e4ff" @click="btnMyPic"></uni-icons>
 				</view>
 				<view
@@ -19,7 +19,7 @@
 						justifyContent: 'center'
 					}"
 				>
-					{{ wxUserinfo.nickName }}
+					{{ wxUserinfo?.nickName }}
 				</view>
 			</view>
 		</view>
