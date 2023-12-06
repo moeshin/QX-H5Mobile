@@ -7,8 +7,7 @@ const whiteList = [
 	'/pages/index/register',
 	'/pages/index/wiki',
 	'/pages/index/crop',
-	
-	
+	'/pages/index/mqtt',
 ]
 
 function hasPermission(url) {
@@ -28,12 +27,11 @@ export default async function() {
 			invoke(e) {
 				// 获取要跳转的页面路径（url去掉"?"和"?"后的参数）
 				const url = e.url.split('?')[0]
-				if(whiteList.includes(url)){
-					console.log('url', url,e)
+				if (whiteList.includes(url)) {
+					console.log('url', url, e)
 					// 判断当前窗口是白名单，如果是则不重定向路由
 					return true;
-				}
-				else{
+				} else {
 					uni.showToast({
 						title: '用户没有权限...',
 						duration: 2000,
@@ -43,7 +41,7 @@ export default async function() {
 				}
 			},
 			fail() {
-				
+
 				return false
 			}
 		})

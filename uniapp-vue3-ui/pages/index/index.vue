@@ -12,6 +12,7 @@
 		</uni-grid>
 		
 		<navigator url="/pages/index/crop">crop</navigator>
+		<navigator url="/pages/index/mqtt">MQTT</navigator>
 
 	</view>
 </template>
@@ -24,7 +25,7 @@
 					{id:1,name:"ICPC联盟",icon:'vip'},
 					{id:2,name:'竞赛',icon:'medal'},
 					{id:3,name:'社团',icon:'staff'},
-					{id:4,name:'面试宝典',icon:'gift'}
+					{id:4,name:'面试宝典',icon:'gift'},
 				]
 
 			}

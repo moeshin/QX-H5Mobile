@@ -58,6 +58,14 @@
 				"navigationBarTitleText": "搜索",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path" : "pages/index/mqtt",
+			"style" : 
+			{
+				"navigationBarTitleText" : "MQTT",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {
