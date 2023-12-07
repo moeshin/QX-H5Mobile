@@ -113,12 +113,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue';
-// #ifdef H5
-import mqtt from 'mqtt';
-// #endif
-// #ifdef MP-WEIXIN
-import mqtt from 'mqtt/dist/mqtt';
-// #endif
+import mqtt from '@/utils/mqtt';
 
 let wsProtocol: 'ws' | 'wx' = 'ws';
 // #ifdef MP-WEIXIN

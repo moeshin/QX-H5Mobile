@@ -13,7 +13,10 @@
 		"useDefineForClassFields": true,
 		"resolveJsonModule": true,
 		"lib": ["esnext", "dom"],
-		"types": ["@dcloudio/types", "node"]
+		"types": ["@dcloudio/types", "node"],
+		"paths": {
+			"@/*": ["./*"]
+		}
 	},
 	"exclude": ["node_modules", "unpackage"]
 }
