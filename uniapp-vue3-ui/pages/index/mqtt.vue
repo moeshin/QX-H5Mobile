@@ -159,31 +159,32 @@ let client: mqtt.MqttClient | undefined = undefined;
 function connect() {
 	connectionState.value = ConnectionState.Connecting;
 	// Event: connect -> offline -> close -> reconnect -> connect -> disconnect -> end
-	client = mqtt.connect(mqttOptions);
-	// console.log(client);
-	client.on('message', (topic, payload, packet) => {
-		console.log('message', topic, payload, packet);
-	});
-	client.on('error', (e) => {
-		console.log('error', e);
-	});
-	client.on('connect', () => {
-		connectionState.value = ConnectionState.Connected;
-	});
-	client.on('offline', () => {
-		connectionState.value = ConnectionState.Offline;
-		reconnectTimes = 0;
-	});
-	client.on('reconnect', () => {
-		connectionState.value = ConnectionState.Reconnecting;
-		if (++reconnectTimes >= MAX_RECONNECT_TIMES) {
-			console.log(`Max reconnections exceeded`);
-			disconnect();
-		}
-	});
-	client.on('end', () => {
-		connectionState.value = ConnectionState.Disconnected;
-	});
+	client = mqtt
+		.connect(mqttOptions)
+		.on('message', (topic, payload, packet) => {
+			console.log('message', topic, payload, packet);
+		})
+		.on('error', (e) => {
+			console.log('error', e);
+		})
+		.on('connect', () => {
+			connectionState.value = ConnectionState.Connected;
+		})
+		.on('offline', () => {
+			connectionState.value = ConnectionState.Offline;
+			reconnectTimes = 0;
+		})
+		.on('reconnect', () => {
+			connectionState.value = ConnectionState.Reconnecting;
+			if (++reconnectTimes >= MAX_RECONNECT_TIMES) {
+				console.log(`Max reconnections exceeded`);
+				disconnect();
+			}
+		})
+		.on('end', () => {
+			connectionState.value = ConnectionState.Disconnected;
+		});
+	console.log(client);
 	// for (const e of [
 	//   'connect',
 	//   'reconnect',
