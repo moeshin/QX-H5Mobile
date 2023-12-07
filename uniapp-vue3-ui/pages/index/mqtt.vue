@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import mqtt from '@/utils/mqtt';
 
 let wsProtocol: 'ws' | 'wx' = 'ws';
@@ -135,7 +135,7 @@ const mqttOptions = reactive<mqtt.IClientOptions>({
 	port: 8083,
 	path: '/mqtt',
 
-	clientId: 'emqx_vue3_' + Math.random().toString(16).substring(2, 8),
+	clientId: 'mqttjs_' + Math.random().toString(16).substring(2, 12),
 	username: '',
 	password: '',
 	keepalive: 60,
