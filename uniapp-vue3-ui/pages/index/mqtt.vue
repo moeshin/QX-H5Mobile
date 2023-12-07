@@ -198,5 +198,8 @@ function connect() {
 
 function disconnect() {
 	client?.end(true);
+	// #ifdef MP-WEIXIN
+	connectionState.value = ConnectionState.Disconnected;
+	// #endif
 }
 </script>
