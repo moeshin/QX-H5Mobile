@@ -65,7 +65,7 @@
                 (() => {
                   switch (connectionState) {
                     case ConnectionState.Connected:
-                      return 'uni-primary';
+                      return 'uni-success';
                     case ConnectionState.Connecting:
                     case ConnectionState.Reconnecting:
                       return 'uni-warning';
@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onUnmounted } from 'vue';
 import mqtt from '@/utils/mqtt';
 
 let wsProtocol: 'ws' | 'wx' = 'ws';
@@ -188,10 +188,17 @@ function connect() {
 }
 
 function disconnect() {
-  client?.end(true);
+  if (!client) {
+    return;
+  }
+  client.end(true);
   console.log(client);
   // #ifdef MP-WEIXIN
   connectionState.value = ConnectionState.Disconnected;
   // #endif
 }
+
+onUnmounted(() => {
+  disconnect();
+});
 </script>
