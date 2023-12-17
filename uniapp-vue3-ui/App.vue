@@ -31,4 +31,11 @@
 		color: #333;
 		padding: 10px;
 	}
+
+  .app-title {
+    padding: 8px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: $uni-main-color;
+  }
 </style>
