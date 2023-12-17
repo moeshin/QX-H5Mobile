@@ -251,8 +251,6 @@ import { ref, reactive, computed, onUnmounted } from 'vue';
 import mqtt from '@/utils/mqtt';
 import GridLayout from '@/components/GridLayout.vue';
 
-const { console } = window;
-
 interface Message {
   message: string;
   topic: string;
@@ -309,7 +307,7 @@ const subscribeForm = reactive({
   qos: 0 as mqtt.QoS,
 });
 
-const subscribedTopics = reactive<{
+const subscribedTopics = ref<{
   [topic: string]: {
     qos: number;
     time: number;
@@ -349,6 +347,7 @@ function connect() {
       console.log('error', e);
     })
     .on('connect', () => {
+      subscribedTopics.value = {};
       connectionState.value = ConnectionState.Connected;
     })
     .on('offline', () => {
@@ -403,7 +402,7 @@ function subscribe() {
         console.error(err);
       } else {
         for (const grant of granted) {
-          subscribedTopics[grant.topic] = {
+          subscribedTopics.value[grant.topic] = {
             qos: grant.qos,
             time: Date.now(),
           };
@@ -418,7 +417,7 @@ function unsubscribe(topic: string) {
     if (err) {
       console.error(err);
     } else {
-      delete subscribedTopics[topic];
+      delete subscribedTopics.value[topic];
     }
   });
 }
