@@ -197,7 +197,7 @@
           <uni-th align="center">QoS</uni-th>
           <uni-th align="center">Time</uni-th>
         </uni-tr>
-        <uni-tr v-for="message in sentMessages">
+        <uni-tr v-for="message in sentMessages" :key="message">
           <uni-td>{{ message.message }}</uni-td>
           <uni-td>{{ message.topic }}</uni-td>
           <uni-td align="center">{{ message.qos }}</uni-td>
@@ -233,7 +233,7 @@
           <uni-th align="center">QoS</uni-th>
           <uni-th align="center">Time</uni-th>
         </uni-tr>
-        <uni-tr v-for="message in receivedMessages">
+        <uni-tr v-for="message in receivedMessages" :key="message">
           <uni-td>{{ message.message }}</uni-td>
           <uni-td>{{ message.topic }}</uni-td>
           <uni-td align="center">{{ message.qos }}</uni-td>
