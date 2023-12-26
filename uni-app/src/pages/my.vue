@@ -1,21 +1,34 @@
 <template>
   <view>
     <view class="my-center">
-      <view class="my-setting" :style="{ backgroundColor: style.bgColor }">
-        <uni-icons
-          type="scan"
-          size="24"
-          class="item"
-          color="#d4e4ff"
-          @click="btnScanCode"
-        ></uni-icons>
-        <uni-icons
-          type="settings"
-          size="24"
-          class="item"
-          color="#d4e4ff"
-        ></uni-icons>
-      </view>
+      <GridLayout :style="{ backgroundColor: style.bgColor }">
+        <template #prepend>
+          <view class="my-setting">
+            <uni-icons
+              type="undo"
+              size="24"
+              class="uni-mx-4"
+              color="#d4e4ff"
+              @click="
+                () => {
+                  userStore.userinfo = undefined;
+                  gotoLogin();
+                }
+              "
+            />
+          </view>
+        </template>
+        <view class="my-setting">
+          <uni-icons
+            type="scan"
+            size="24"
+            class="item"
+            color="#d4e4ff"
+            @click="btnScanCode"
+          />
+          <uni-icons type="settings" size="24" class="item" color="#d4e4ff" />
+        </view>
+      </GridLayout>
       <view class="my" :style="{ backgroundColor: style.bgColor }">
         <view class="my-pic">
           <uni-icons type="person" size="60" color="white"></uni-icons>
@@ -27,7 +40,7 @@
             @click="btnMyPic"
           ></uni-icons>
         </view>
-        <view class="my-info"> </view>
+        <view class="my-info">{{ userStore.userinfo?.userName }}</view>
       </view>
     </view>
 
@@ -47,6 +60,7 @@
 import { onShow, onLoad } from '@dcloudio/uni-app';
 import { useUserStore } from '@/store/user';
 import { redirectToLogin } from './login.vue';
+import GridLayout from '@/components/GridLayout.vue';
 
 const style = {
   bgColor: '#2979ff',
@@ -83,9 +97,13 @@ function btnMyPic() {
   });
 }
 
+function gotoLogin() {
+  redirectToLogin('/pages/my', true);
+}
+
 onShow(() => {
   if (!userStore.isLogin) {
-    redirectToLogin('/pages/my', true);
+    gotoLogin();
   }
 });
 
@@ -136,10 +154,13 @@ onLoad(() => {
 }
 
 .my-info {
+  display: flex;
   height: 200upx;
   flex: 1;
   border: 1upx solid white;
   margin: 0 20upx 0 10upx;
+  align-items: center;
+  justify-content: center;
 }
 
 .toolbars {
