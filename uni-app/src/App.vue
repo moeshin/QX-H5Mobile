@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import { onHide, onLaunch, onShow } from '@dcloudio/uni-app'
+import '@/local.config';
+import { onHide, onLaunch, onShow } from '@dcloudio/uni-app';
 
 onLaunch(() => {
-  console.log('App Launch')
-})
+  console.log('App Launch');
+});
 onShow(() => {
-  console.log('App Show')
-})
+  console.log('App Show');
+});
 onHide(() => {
-  console.log('App Hide')
-})
+  console.log('App Hide');
+});
 </script>
 
-<style></style>
+<style lang="scss">
+.app-title {
+  padding: 8px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: $uni-main-color;
+}
+</style>

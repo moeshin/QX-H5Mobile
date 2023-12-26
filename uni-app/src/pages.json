@@ -1,19 +1,94 @@
 {
   "pages": [
     {
-      "path": "pages/index",
-      "type": "home"
+      "path": "pages/home"
+    },
+    {
+      "path": "pages/my",
+      "style": {
+        "navigationBarTitleText": "用户中心"
+      }
+    },
+    {
+      "path": "pages/register"
+    },
+    {
+      "path": "pages/login"
+    },
+    {
+      "path": "pages/crop"
+    },
+    {
+      "path": "pages/wiki"
+    },
+    {
+      "path": "pages/list"
+    },
+    {
+      "path": "pages/search"
+    },
+    {
+      "path": "pages/weixin"
+    },
+    {
+      "path": "pages/mqtt",
+      "style": {
+        "navigationBarTitleText": "MQTT"
+      }
     }
   ],
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home-active.png",
+        "text": "首页"
+      },
+      {
+				"pagePath": "pages/wiki",
+				"iconPath": "static/tabbar/wiki.png",
+				"selectedIconPath": "static/tabbar/wiki-active.png",
+				"text": "知识库"
+			},
+      {
+        "pagePath": "pages/my",
+        "iconPath": "static/tabbar/my.png",
+        "selectedIconPath": "static/tabbar/my-active.png",
+        "text": "用户"
+      },
+      {
+        "pagePath": "pages/list",
+        "iconPath": "static/tabbar/list.png",
+        "selectedIconPath": "static/tabbar/list-active.png",
+        "text": "列表"
+      },
+      {
+        "pagePath": "pages/search",
+        "iconPath": "static/tabbar/seach.png",
+        "selectedIconPath": "static/tabbar/seach-active.png",
+        "text": "搜索"
+      }
+    ]
+  },
   "globalStyle": {
     "backgroundColor": "@bgColor",
     "backgroundColorBottom": "@bgColorBottom",
     "backgroundColorTop": "@bgColorTop",
     "backgroundTextStyle": "@bgTxtStyle",
-    "navigationBarBackgroundColor": "#000000",
+    "navigationBarBackgroundColor": "#1296db",
     "navigationBarTextStyle": "@navTxtStyle",
-    "navigationBarTitleText": "Uni Creator",
-    "navigationStyle": "custom"
+    "navigationBarTitleText": "uni-app"
   },
-  "subPackages": []
+  "subPackages": [],
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+    }
+  }
 }
