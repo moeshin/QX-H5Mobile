@@ -50,6 +50,9 @@ jobs:
           for project in $(ls -d */); do
             project="${project::-1}"
             out_dir="$project/dist"
+            if ! [ -f "$out_dir/index.html" ]; then
+              out_dir="$out_dir/build/h5"
+            fi
             echo "out_dir: $out_dir"
             if [ -f "$out_dir/index.html" ]; then
               mv "$out_dir" "dist/$project"
@@ -57,7 +60,7 @@ jobs:
             fi
           done
           echo "</ul></body></html>" >>dist/index.html
-      
+
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
