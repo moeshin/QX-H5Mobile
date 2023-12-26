@@ -7,63 +7,100 @@
     v-model="searchValue"
   >
   </uni-search-bar>
-  <view class="catogory">
-    <scroll-view
-      class="scroll-view_H"
-      :scroll-x="true"
-      :show-scrollbar="true"
-    >
-      <view class="scroll-view-item_H">A</view>
-      <view class="scroll-view-item_H">B</view>
-      <view class="scroll-view-item_H">C</view>
-      <view class="scroll-view-item_H">D</view>
-      <view class="scroll-view-item_H">E</view>
-      <view class="scroll-view-item_H">F</view>
-      <view class="scroll-view-item_H">A</view>
-      <view class="scroll-view-item_H">B</view>
-      <view class="scroll-view-item_H">C</view>
-      <view class="scroll-view-item_H">D</view>
-      <view class="scroll-view-item_H">E</view>
-      <view class="scroll-view-item_H">F</view>
-      <view class="scroll-view-item_H">JAVA</view>
-      <view class="scroll-view-item_H">A</view>
-      <view class="scroll-view-item_H">B</view>
-      <view class="scroll-view-item_H">C</view>
-      <view class="scroll-view-item_H">D</view>
-      <view class="scroll-view-item_H">E</view>
-      <view class="scroll-view-item_H"></view>
+  <GridLayout class="catogory">
+    <scroll-view class="scroll-view_H" :scroll-x="true">
+      <view
+        v-for="cat in cats"
+        :class="['scroll-view-item_H', cat.checked ? 'active' : null]"
+        @click="
+          () => {
+            if (cat === currentCat) {
+              return;
+            }
+            if (currentCat) {
+              currentCat.checked = false;
+            }
+            currentCat = cat;
+            cat.checked = true;
+            console.log({...cat});
+          }
+        "
+      >
+        <text>{{ cat.catName }}</text>
+      </view>
     </scroll-view>
-    <uni-icons :type="isMore ? 'bottom' : 'top'" class="more"></uni-icons>
-  </view>
+    <template #append>
+      <uni-icons
+        :type="isMore ? 'bottom' : 'top'"
+        class="uni-mx-2"
+        @click="
+          () => {
+            isMore = !isMore;
+          }
+        "
+      />
+    </template>
+  </GridLayout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import * as api from '@/http/api';
+import { onShow, onLoad } from '@dcloudio/uni-app';
+import { useUserStore } from '@/store/user';
+import { redirectToLogin } from './login.vue';
+import GridLayout from '@/components/GridLayout.vue';
+
+const { console } = window;
+
+type Cat = api.ArticleCat & {
+  checked?: boolean;
+};
+
+const userStore = useUserStore();
 
 const searchValue = ref<string>();
-const isMore = ref(false);
+const isMore = ref(true);
+const cats = ref<Cat[]>();
+let currentCat: Cat | undefined = undefined;
 
 function search(e: any) {
   console.log(e);
 }
 
+onShow(() => {
+  if (!userStore.isLogin) {
+    redirectToLogin('/pages/wiki', true);
+  }
+});
+
+onLoad(() => {
+  if (!userStore.isLogin) {
+    return;
+  }
+  api.getArticleCatAll().then((data) => {
+    cats.value = data.articleCats;
+  });
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+::v-deep ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .catogory {
-  position: relative;
+  height: 60rpx;
+  border-bottom: 1upx solid #ccc;
+
+  .active {
+    background-color: #ddd;
+  }
 }
 
 .scroll-view_H {
   white-space: nowrap;
-  width: 100%;
-  height: 60rpx;
-  border-bottom: 1upx solid #ccc;
-}
-
-::v-deep ::-webkit-scrollbar {
-  width: 0;
-  height: 0;
 }
 
 .scroll-view-item_H {
@@ -72,12 +109,5 @@ function search(e: any) {
   line-height: 60rpx;
   text-align: center;
   font-size: 16rpx;
-}
-
-.more {
-  position: absolute;
-  top: 10upx;
-  right: 0;
-  background-color: #f5f5f5;
 }
 </style>
