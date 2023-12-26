@@ -1,6 +1,8 @@
-import { createSSRApp } from 'vue';
+import '@/local.config';
+
 import * as Pinia from 'pinia';
-import piniaPersist from 'pinia-plugin-persist-uni'
+import piniaPersist from 'pinia-plugin-persist-uni';
+import { createSSRApp } from 'vue';
 import App from './App.vue';
 
 export function createApp() {

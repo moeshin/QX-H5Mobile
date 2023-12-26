@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import '@/local.config';
 import { onHide, onLaunch, onShow } from '@dcloudio/uni-app';
 
 onLaunch(() => {
