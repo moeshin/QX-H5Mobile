@@ -222,3 +222,32 @@ export const getArticlePages = (
     size,
     colums,
   });
+
+export interface Memorabilia {
+  id: number;
+  userId: number;
+  happenTime: string;
+  createTime: string;
+  updateTime: string;
+  content: string;
+}
+
+export const getMemorabiliaAll = () =>
+  get<{
+    memorabilias: Memorabilia[];
+  }>('/api/memorabilia/all');
+
+export const getMemorabilia = (id: number) =>
+  get<Memorabilia>(`/api/memorabilia/one/${id}`);
+
+export interface MemorabiliaAddData {
+  id?: number;
+  userId: number;
+  happenTime: string;
+  createTime?: string;
+  updateTime?: string;
+  content: string;
+}
+
+export const addMemorabilia = (data: MemorabiliaAddData) =>
+  post<undefined>('/api/memorabilia/add', data);
