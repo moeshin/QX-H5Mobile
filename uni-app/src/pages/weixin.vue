@@ -35,6 +35,7 @@ const { wx: wxConfig } = localConfig;
 const weixinStore = useWeixinStore();
 
 async function authAsync(): Promise<WxUserinfo> {
+  // 获取头像需要基础库 2.26.2 以下版本
   const userProfile = await uni.getUserProfile({
     lang: 'zh_CN',
     desc: '授权获得更多服务',
